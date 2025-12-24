@@ -1,0 +1,330 @@
+/**
+ * PROJECT SIREN - Global CSS Design System
+ * Cyberpunk / Sci-Fi / Futuristic Theme
+ */
+
+/* ===================================
+   GOOGLE FONTS IMPORT
+   =================================== */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ===================================
+   CSS VARIABLES - DESIGN TOKENS
+   =================================== */
+:root {
+  /* === COLORS: ATTACK MODE (Hack Page) === */
+  --attack-bg: #050508;
+  --attack-bg-gradient: linear-gradient(135deg, #050508 0%, #0a0a15 50%, #070710 100%);
+  --attack-primary: #ff073a;
+  --attack-secondary: #00f0ff;
+  --attack-tertiary: #ff00ff;
+  --attack-accent: #00ff41;
+  --attack-warning: #ffaa00;
+  --attack-text: #00ff41;
+  --attack-text-dim: rgba(0, 255, 65, 0.6);
+  
+  /* === COLORS: SAFE MODE (Reveal Pages) === */
+  --safe-bg: #0d1117;
+  --safe-bg-gradient: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+  --safe-primary: #00ff88;
+  --safe-secondary: #4488ff;
+  --safe-accent: #00f0ff;
+  --safe-text: #ffffff;
+  --safe-text-dim: rgba(255, 255, 255, 0.7);
+  
+  /* === COLORS: ADMIN DASHBOARD === */
+  --admin-bg: #030306;
+  --admin-bg-gradient: radial-gradient(ellipse at top, #0a0a15 0%, #030306 50%, #000000 100%);
+  --admin-primary: #00f0ff;
+  --admin-secondary: #ff00ff;
+  --admin-accent: #00ff41;
+  --admin-warning: #ff073a;
+  --admin-text: #ffffff;
+  --admin-grid: rgba(0, 240, 255, 0.05);
+  --admin-panel-bg: rgba(10, 10, 20, 0.8);
+  --admin-panel-border: rgba(0, 240, 255, 0.2);
+  
+  /* === TYPOGRAPHY === */
+  --font-display: 'Orbitron', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-body: 'Inter', sans-serif;
+  
+  /* === SPACING === */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  
+  /* === EFFECTS === */
+  --glow-cyan: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.3), 0 0 40px rgba(0, 240, 255, 0.1);
+  --glow-red: 0 0 10px rgba(255, 7, 58, 0.5), 0 0 20px rgba(255, 7, 58, 0.3), 0 0 40px rgba(255, 7, 58, 0.1);
+  --glow-green: 0 0 10px rgba(0, 255, 65, 0.5), 0 0 20px rgba(0, 255, 65, 0.3), 0 0 40px rgba(0, 255, 65, 0.1);
+  --glow-magenta: 0 0 10px rgba(255, 0, 255, 0.5), 0 0 20px rgba(255, 0, 255, 0.3), 0 0 40px rgba(255, 0, 255, 0.1);
+  
+  /* === GLASSMORPHISM === */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(20px);
+  
+  /* === TRANSITIONS === */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  
+  /* === Z-INDEX LAYERS === */
+  --z-background: -1;
+  --z-base: 1;
+  --z-overlay: 10;
+  --z-modal: 100;
+  --z-toast: 1000;
+}
+
+/* ===================================
+   CSS RESET & BASE
+   =================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.6;
+  color: var(--safe-text);
+  background: var(--attack-bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===================================
+   TYPOGRAPHY
+   =================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+h1 { font-size: clamp(2rem, 5vw, 4rem); }
+h2 { font-size: clamp(1.5rem, 4vw, 3rem); }
+h3 { font-size: clamp(1.25rem, 3vw, 2rem); }
+h4 { font-size: clamp(1rem, 2vw, 1.5rem); }
+
+code, pre, .mono {
+  font-family: var(--font-mono);
+}
+
+/* ===================================
+   UTILITY CLASSES
+   =================================== */
+.text-glow-cyan { text-shadow: var(--glow-cyan); }
+.text-glow-red { text-shadow: var(--glow-red); }
+.text-glow-green { text-shadow: var(--glow-green); }
+.text-glow-magenta { text-shadow: var(--glow-magenta); }
+
+.box-glow-cyan { box-shadow: var(--glow-cyan); }
+.box-glow-red { box-shadow: var(--glow-red); }
+.box-glow-green { box-shadow: var(--glow-green); }
+.box-glow-magenta { box-shadow: var(--glow-magenta); }
+
+/* ===================================
+   SCANLINE EFFECT
+   =================================== */
+.scanlines::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: var(--z-overlay);
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  animation: scanlines 8s linear infinite;
+}
+
+@keyframes scanlines {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100vh; }
+}
+
+/* ===================================
+   GRID BACKGROUND PATTERN
+   =================================== */
+.grid-bg {
+  background-image: 
+    linear-gradient(var(--admin-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--admin-grid) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center center;
+}
+
+/* ===================================
+   ANIMATIONS
+   =================================== */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { 
+    filter: brightness(1) drop-shadow(0 0 5px currentColor);
+  }
+  50% { 
+    filter: brightness(1.2) drop-shadow(0 0 20px currentColor);
+  }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  96% { opacity: 0.9; }
+  97% { opacity: 1; }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes rgb-shift {
+  0% { text-shadow: -2px 0 #ff073a, 2px 0 #00f0ff; }
+  25% { text-shadow: 2px 0 #ff073a, -2px 0 #00f0ff; }
+  50% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ff41; }
+  75% { text-shadow: 2px 0 #00ff41, -2px 0 #ff00ff; }
+  100% { text-shadow: -2px 0 #ff073a, 2px 0 #00f0ff; }
+}
+
+@keyframes border-glow {
+  0%, 100% { 
+    border-color: var(--admin-primary);
+    box-shadow: 0 0 10px var(--admin-primary), inset 0 0 10px rgba(0, 240, 255, 0.1);
+  }
+  50% { 
+    border-color: var(--admin-secondary);
+    box-shadow: 0 0 20px var(--admin-secondary), inset 0 0 20px rgba(255, 0, 255, 0.1);
+  }
+}
+
+@keyframes typing-cursor {
+  0%, 50% { border-right-color: transparent; }
+  51%, 100% { border-right-color: var(--attack-accent); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===================================
+   SCROLLBAR STYLING
+   =================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--attack-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--admin-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--admin-secondary);
+}
+
+/* ===================================
+   SELECTION STYLING
+   =================================== */
+::selection {
+  background: var(--admin-primary);
+  color: var(--attack-bg);
+}
+
+/* ===================================
+   LINK STYLING
+   =================================== */
+a {
+  color: var(--admin-primary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+a:hover {
+  color: var(--admin-secondary);
+  text-shadow: var(--glow-cyan);
+}
+
+/* ===================================
+   BUTTON BASE
+   =================================== */
+button {
+  font-family: var(--font-display);
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: var(--transition-normal);
+}
+
+button:focus {
+  outline: 2px solid var(--admin-primary);
+  outline-offset: 2px;
+}
+
+/* ===================================
+   RESPONSIVE BREAKPOINTS
+   =================================== */
+/* Mobile-first approach */
+/* sm: 640px, md: 768px, lg: 1024px, xl: 1280px, 2xl: 1536px */

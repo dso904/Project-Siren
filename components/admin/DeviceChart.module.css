@@ -1,0 +1,111 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Chart wrapper */
+.chartWrapper {
+    position: relative;
+    width: 180px;
+    height: 180px;
+}
+
+.chart {
+    width: 100%;
+    height: 100%;
+}
+
+.totalNumber {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    fill: white;
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+}
+
+.totalLabel {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+}
+
+/* Rotating ring decoration */
+.rotatingRing {
+    position: absolute;
+    inset: -5px;
+    border: 1px dashed rgba(0, 240, 255, 0.2);
+    border-radius: 50%;
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Legend */
+.legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.legendItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s ease;
+}
+
+.legendItem:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.legendDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legendIcon {
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.legendLabel {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    flex: 1;
+}
+
+.legendValue {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+    min-width: 30px;
+    text-align: right;
+}
+
+.legendPercent {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--admin-primary);
+    min-width: 35px;
+    text-align: right;
+}

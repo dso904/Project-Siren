@@ -1,0 +1,187 @@
+.container {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--safe-bg);
+    position: relative;
+    overflow-x: hidden;
+    padding: var(--space-xl) var(--space-md);
+}
+
+/* Background effects */
+.gradientBg {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 0%,
+            rgba(0, 255, 136, 0.1) 0%,
+            transparent 50%),
+        radial-gradient(ellipse at 70% 100%,
+            rgba(68, 136, 255, 0.1) 0%,
+            transparent 50%);
+    pointer-events: none;
+}
+
+.gridPattern {
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0, 255, 136, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+}
+
+/* Main content */
+.main {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+}
+
+.headerIcon {
+    font-size: 3rem;
+    margin-bottom: var(--space-md);
+    filter: drop-shadow(0 0 20px var(--safe-primary));
+}
+
+.title {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    color: var(--safe-text);
+    margin: 0 0 var(--space-sm);
+    letter-spacing: 0.1em;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--safe-text-dim);
+    margin: 0;
+}
+
+/* Tips grid */
+.tipsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-2xl);
+}
+
+/* Tip card */
+.tipCard {
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: var(--space-lg);
+    overflow: hidden;
+    cursor: default;
+    transition: all 0.3s ease;
+}
+
+.tipCard:hover {
+    border-color: var(--accent);
+}
+
+.tipIcon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-md);
+    filter: drop-shadow(0 0 10px var(--accent));
+}
+
+.tipTitle {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--safe-text);
+    margin: 0 0 var(--space-sm);
+    letter-spacing: 0.05em;
+}
+
+.tipDescription {
+    font-size: 0.9rem;
+    color: var(--safe-text-dim);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.tipAccent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tipCard:hover .tipAccent {
+    opacity: 1;
+}
+
+/* Navigation */
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+}
+
+.navLink {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--safe-text-dim);
+    text-decoration: none;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.navLink:hover {
+    color: var(--safe-text);
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.navLinkPrimary {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: var(--safe-bg);
+    text-decoration: none;
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--safe-primary);
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+}
+
+.navLinkPrimary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 255, 136, 0.4);
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+    .container {
+        padding: var(--space-lg) var(--space-sm);
+    }
+
+    .tipsGrid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+
+    .nav {
+        flex-direction: column;
+        align-items: center;
+    }
+}

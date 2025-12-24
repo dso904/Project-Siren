@@ -1,0 +1,154 @@
+.terminal {
+    font-family: var(--font-mono);
+    background: rgba(5, 5, 10, 0.95);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow:
+        0 0 20px rgba(0, 255, 65, 0.1),
+        inset 0 0 30px rgba(0, 0, 0, 0.5);
+    max-height: 250px;
+    width: 100%;
+}
+
+/* Terminal header */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(30, 30, 40, 0.8);
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+}
+
+.headerDots {
+    display: flex;
+    gap: 6px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.headerTitle {
+    font-size: 0.75rem;
+    color: var(--attack-text-dim);
+    letter-spacing: 0.05em;
+}
+
+/* Log container */
+.logContainer {
+    padding: 12px;
+    max-height: 180px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--attack-accent) transparent;
+}
+
+.logContainer::-webkit-scrollbar {
+    width: 4px;
+}
+
+.logContainer::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.logContainer::-webkit-scrollbar-thumb {
+    background: var(--attack-accent);
+    border-radius: 2px;
+}
+
+/* Log entry */
+.logEntry {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 4px 0;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.timestamp {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.7rem;
+    flex-shrink: 0;
+}
+
+.icon {
+    flex-shrink: 0;
+    width: 14px;
+    text-align: center;
+}
+
+.message {
+    color: var(--attack-text);
+    word-break: break-word;
+}
+
+/* Entry types */
+.info .icon {
+    color: var(--attack-secondary);
+}
+
+.success .icon {
+    color: var(--safe-primary);
+    text-shadow: 0 0 10px var(--safe-primary);
+}
+
+.success .message {
+    color: var(--safe-primary);
+}
+
+.warning .icon {
+    color: var(--attack-warning);
+    text-shadow: 0 0 10px var(--attack-warning);
+}
+
+.warning .message {
+    color: var(--attack-warning);
+}
+
+.error .icon {
+    color: var(--attack-primary);
+    text-shadow: 0 0 10px var(--attack-primary);
+}
+
+.error .message {
+    color: var(--attack-primary);
+}
+
+.pending .icon {
+    color: var(--attack-secondary);
+    animation: blink 1s infinite;
+}
+
+.pending .message {
+    color: var(--attack-secondary);
+}
+
+.typing .message {
+    color: var(--attack-text);
+}
+
+/* Blinking cursor */
+.cursor {
+    display: inline-block;
+    color: var(--attack-accent);
+    animation: blink 0.7s infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
+}

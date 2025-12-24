@@ -1,0 +1,30 @@
+.container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.canvas {
+    border-radius: 50%;
+    box-shadow:
+        0 0 30px rgba(0, 240, 255, 0.2),
+        0 0 60px rgba(0, 240, 255, 0.1),
+        inset 0 0 30px rgba(0, 240, 255, 0.1);
+}
+
+.overlay {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.label {
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--admin-primary);
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+    opacity: 0.7;
+}

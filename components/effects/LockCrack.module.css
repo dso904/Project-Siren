@@ -1,0 +1,152 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+/* Glow rings behind lock */
+.glowRings {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ring {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border: 2px solid var(--attack-primary);
+    border-radius: 50%;
+    box-shadow:
+        0 0 20px var(--attack-primary),
+        inset 0 0 20px rgba(255, 7, 58, 0.1);
+}
+
+.ringInner {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border: 1px solid var(--attack-secondary);
+    border-radius: 50%;
+    box-shadow:
+        0 0 15px var(--attack-secondary),
+        inset 0 0 15px rgba(0, 240, 255, 0.1);
+}
+
+/* Lock container */
+.lockContainer {
+    position: relative;
+    z-index: 2;
+    width: 120px;
+    height: 140px;
+}
+
+.lockSvg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Digit display */
+.digitContainer {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 12px 20px;
+    background: rgba(10, 10, 20, 0.8);
+    border: 1px solid var(--attack-primary);
+    border-radius: 8px;
+    box-shadow:
+        0 0 20px rgba(255, 7, 58, 0.3),
+        inset 0 0 10px rgba(255, 7, 58, 0.1);
+}
+
+.digit {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--attack-primary);
+    text-shadow: 0 0 10px currentColor;
+    width: 32px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.digit.locked {
+    color: var(--safe-primary);
+    text-shadow: 0 0 15px var(--safe-primary);
+}
+
+/* Progress bar */
+.progressContainer {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.progressLabel {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--attack-text);
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+}
+
+.progressBar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 7, 58, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 7, 58, 0.3);
+}
+
+.progressFill {
+    height: 100%;
+    background: var(--attack-primary);
+    box-shadow: 0 0 10px var(--attack-primary);
+    transition: background-color 0.3s ease;
+}
+
+/* Cracked badge */
+.crackedBadge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 12px 24px;
+    background: rgba(0, 255, 65, 0.2);
+    border: 2px solid var(--safe-primary);
+    border-radius: 4px;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--safe-primary);
+    text-shadow: 0 0 20px var(--safe-primary);
+    box-shadow:
+        0 0 30px var(--safe-primary),
+        inset 0 0 20px rgba(0, 255, 65, 0.2);
+    animation: pulse 0.5s ease infinite alternate;
+    z-index: 10;
+}
+
+@keyframes pulse {
+    from {
+        box-shadow:
+            0 0 30px var(--safe-primary),
+            inset 0 0 20px rgba(0, 255, 65, 0.2);
+    }
+
+    to {
+        box-shadow:
+            0 0 50px var(--safe-primary),
+            inset 0 0 30px rgba(0, 255, 65, 0.3);
+    }
+}
