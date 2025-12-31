@@ -110,9 +110,15 @@ See [Router Setup Guide](./docs/router-setup.md) for details.
 
 ---
 
-## 👥 Team
+## 👥 Team Hackminors
 
-*Add your team members here*
+**South Point High School, Kolkata**
+
+| Name | Class |
+|------|-------|
+| Purbayon Sarkar | XI K Afternoon |
+| Sagnik Chakraborty | XI J Afternoon |
+| Hrishikesh Saha | XI J Afternoon |
 
 ---
 

@@ -11,27 +11,22 @@ import styles from "./page.module.css";
  * Placeholder for team member details.
  */
 
-// Placeholder team members - TO BE CUSTOMIZED
+// Team Hackminors - South Point High School, Kolkata
 const TEAM_MEMBERS = [
     {
-        name: "Team Member 1",
-        role: "Project Lead",
+        name: "Purbayon Sarkar",
+        role: "Class XI K Afternoon",
         avatar: "👨‍💻",
     },
     {
-        name: "Team Member 2",
-        role: "Developer",
-        avatar: "👩‍💻",
-    },
-    {
-        name: "Team Member 3",
-        role: "Designer",
-        avatar: "🎨",
-    },
-    {
-        name: "Team Member 4",
-        role: "Security Researcher",
+        name: "Sagnik Chakraborty",
+        role: "Class XI J Afternoon",
         avatar: "🔐",
+    },
+    {
+        name: "Hrishikesh Saha",
+        role: "Class XI J Afternoon",
+        avatar: "🎨",
     },
 ];
 
@@ -133,7 +128,7 @@ export default function CreditsPage() {
                 {/* Footer */}
                 <motion.footer className={styles.footer} variants={itemVariants}>
                     <p className={styles.exhibitionNote}>
-                        School Exhibition Project • 2024
+                        Team Hackminors • South Point High School, Kolkata • 2025
                     </p>
                     <Link href="/" className={styles.restartLink}>
                         ↺ Experience Demo Again

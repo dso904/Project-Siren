@@ -103,6 +103,7 @@ export default function DeviceChart({ data, className = "" }: DeviceChartProps) 
                         textAnchor="middle"
                         className={styles.totalNumber}
                         fill="white"
+                        suppressHydrationWarning
                     >
                         {total}
                     </text>
