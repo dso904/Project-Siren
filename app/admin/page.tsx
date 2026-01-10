@@ -8,6 +8,7 @@ import {
     VictimCounter,
     TrafficLog,
     DeviceChart,
+    AdminLogin,
 } from "@/components/admin";
 import { Victim } from "@/lib/sessions";
 import styles from "./page.module.css";
@@ -50,6 +51,7 @@ export default function AdminDashboard() {
     const [currentTime, setCurrentTime] = useState<Date | null>(null);
     const [particles, setParticles] = useState<ParticleData[]>([]);
     const [isClient, setIsClient] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     // Initialize client-only state
     useEffect(() => {
@@ -149,6 +151,11 @@ export default function AdminDashboard() {
             second: "2-digit",
         });
     };
+
+    // Show login screen if not authenticated
+    if (!isAuthenticated) {
+        return <AdminLogin onAuthenticated={() => setIsAuthenticated(true)} />;
+    }
 
     return (
         <div className={styles.container}>

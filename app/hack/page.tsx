@@ -92,6 +92,21 @@ export default function HackPage() {
             {/* Scanlines overlay */}
             <div className={styles.scanlines} />
 
+            {/* Admin Access Button - Top Left */}
+            <motion.a
+                href="/admin"
+                className={styles.adminButton}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1, duration: 0.5 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+            >
+                <span className={styles.adminIcon}>⌘</span>
+                <span className={styles.adminText}>ADMIN</span>
+                <div className={styles.adminGlow} />
+            </motion.a>
+
             {/* Main content */}
             <AnimatePresence>
                 {phase !== "redirect" && (

@@ -242,6 +242,98 @@
     text-transform: uppercase;
 }
 
+/* ===================================
+   ADMIN BUTTON - TOP LEFT
+   =================================== */
+.adminButton {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    border-radius: 4px;
+    text-decoration: none;
+    z-index: 50;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.adminButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+            rgba(0, 240, 255, 0.1) 0%,
+            transparent 50%,
+            rgba(255, 0, 255, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.adminButton:hover::before {
+    opacity: 1;
+}
+
+.adminButton:hover {
+    border-color: #00f0ff;
+    box-shadow:
+        0 0 20px rgba(0, 240, 255, 0.3),
+        inset 0 0 15px rgba(0, 240, 255, 0.1);
+}
+
+.adminIcon {
+    font-size: 1rem;
+    color: #00f0ff;
+    filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.5));
+    animation: iconPulse 2s ease infinite;
+}
+
+@keyframes iconPulse {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.5));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.8));
+    }
+}
+
+.adminText {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #00f0ff;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+.adminGlow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.15),
+            transparent);
+    transition: left 0.5s ease;
+}
+
+.adminButton:hover .adminGlow {
+    left: 100%;
+}
+
 /* Mobile adjustments */
 @media (max-width: 480px) {
     .main {
@@ -255,5 +347,13 @@
 
     .title {
         font-size: 1.3rem;
+    }
+
+    .adminButton {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .adminText {
+        font-size: 0.6rem;
     }
 }
