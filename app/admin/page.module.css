@@ -166,13 +166,16 @@
 }
 
 .headerRight {
-    text-align: right;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
 }
 
 .datetime {
     display: flex;
     flex-direction: column;
     gap: 2px;
+    text-align: right;
 }
 
 .time {
@@ -189,6 +192,92 @@
     font-size: 0.65rem;
     color: rgba(255, 255, 255, 0.4);
     letter-spacing: 0.05em;
+}
+
+/* Logout Button - Stylish & Animated */
+.logoutBtn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(135deg, rgba(255, 7, 58, 0.1) 0%, rgba(255, 0, 100, 0.15) 100%);
+    border: 1px solid rgba(255, 7, 58, 0.4);
+    border-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.logoutBtn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+            rgba(255, 7, 58, 0.15) 0%,
+            transparent 50%,
+            rgba(255, 0, 100, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.logoutBtn:hover::before {
+    opacity: 1;
+}
+
+.logoutBtn:hover {
+    border-color: #ff073a;
+    box-shadow:
+        0 0 25px rgba(255, 7, 58, 0.35),
+        inset 0 0 15px rgba(255, 7, 58, 0.1);
+}
+
+.logoutIcon {
+    font-size: 1rem;
+    color: #ff073a;
+    filter: drop-shadow(0 0 5px rgba(255, 7, 58, 0.5));
+    animation: logoutIconPulse 2s ease infinite;
+}
+
+@keyframes logoutIconPulse {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 5px rgba(255, 7, 58, 0.5));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 12px rgba(255, 7, 58, 0.9));
+    }
+}
+
+.logoutText {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #ff073a;
+    letter-spacing: 0.12em;
+    text-shadow: 0 0 10px rgba(255, 7, 58, 0.5);
+}
+
+.logoutGlow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.15),
+            transparent);
+    transition: left 0.5s ease;
+}
+
+.logoutBtn:hover .logoutGlow {
+    left: 100%;
 }
 
 /* Dashboard grid */

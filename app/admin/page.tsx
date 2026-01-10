@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { HoloPanel } from "@/components/ui";
 import {
@@ -52,11 +53,60 @@ export default function AdminDashboard() {
     const [particles, setParticles] = useState<ParticleData[]>([]);
     const [isClient, setIsClient] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const router = useRouter();
 
-    // Initialize client-only state
+    // Session key for authentication - changes on each app load
+    const SESSION_KEY = "siren_admin_session";
+    const SESSION_TOKEN = "authenticated_" + Date.now().toString(36);
+
+    // Handle authentication with session management
+    const handleAuthenticated = useCallback(() => {
+        // Store session in sessionStorage (clears on tab close/refresh)
+        if (typeof window !== 'undefined') {
+            sessionStorage.setItem(SESSION_KEY, SESSION_TOKEN);
+            // Replace current history entry to prevent back button
+            window.history.replaceState({ authenticated: true }, '', '/admin');
+        }
+        setIsAuthenticated(true);
+    }, [SESSION_KEY, SESSION_TOKEN]);
+
+    // Handle logout with security measures
+    const handleLogout = useCallback(() => {
+        if (typeof window !== 'undefined') {
+            // Clear session
+            sessionStorage.removeItem(SESSION_KEY);
+            // Clear all history and replace with login state
+            window.history.replaceState({ authenticated: false }, '', '/admin');
+            // Prevent back button by pushing multiple entries
+            window.history.pushState(null, '', '/admin');
+            window.history.pushState(null, '', '/admin');
+        }
+        setIsAuthenticated(false);
+    }, [SESSION_KEY]);
+
+    // Initialize client-only state and check session
     useEffect(() => {
         setIsClient(true);
         setCurrentTime(new Date());
+
+        // Check if session exists (prevents access without login)
+        // Note: sessionStorage clears on refresh/tab close for security
+        const storedSession = sessionStorage.getItem(SESSION_KEY);
+        if (storedSession) {
+            // Session exists but we invalidate on refresh for security
+            sessionStorage.removeItem(SESSION_KEY);
+        }
+
+        // Prevent back button navigation after logout
+        const handlePopState = () => {
+            if (!sessionStorage.getItem(SESSION_KEY)) {
+                setIsAuthenticated(false);
+                // Push state again to prevent back navigation
+                window.history.pushState(null, '', '/admin');
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
 
         // Generate particles only on client to avoid hydration mismatch
         const newParticles: ParticleData[] = Array.from({ length: 30 }).map(() => ({
@@ -67,7 +117,11 @@ export default function AdminDashboard() {
             delay: Math.random() * 5,
         }));
         setParticles(newParticles);
-    }, []);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [SESSION_KEY]);
 
     // Fetch initial stats
     const fetchStats = useCallback(async () => {
@@ -154,7 +208,7 @@ export default function AdminDashboard() {
 
     // Show login screen if not authenticated
     if (!isAuthenticated) {
-        return <AdminLogin onAuthenticated={() => setIsAuthenticated(true)} />;
+        return <AdminLogin onAuthenticated={handleAuthenticated} />;
     }
 
     return (
@@ -227,6 +281,18 @@ export default function AdminDashboard() {
                                 {currentTime ? formatDate(currentTime) : "---"}
                             </div>
                         </div>
+
+                        {/* Logout Button */}
+                        <motion.button
+                            className={styles.logoutBtn}
+                            onClick={handleLogout}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
+                            <span className={styles.logoutIcon}>⏻</span>
+                            <span className={styles.logoutText}>LOGOUT</span>
+                            <div className={styles.logoutGlow} />
+                        </motion.button>
                     </div>
                 </header>
 
