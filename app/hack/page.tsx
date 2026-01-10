@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     MatrixRain,
-    LockCrack,
+    HackerAgentAnimation,
     TerminalLog,
     GlitchOverlay,
 } from "@/components/effects";
@@ -124,7 +124,7 @@ export default function HackPage() {
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ delay: 0.5, duration: 0.5 }}
                         >
-                            <LockCrack
+                            <HackerAgentAnimation
                                 duration={6}
                                 isActive={phase === "hacking"}
                                 onComplete={() => setLockComplete(true)}
