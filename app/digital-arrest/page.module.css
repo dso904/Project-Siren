@@ -1,0 +1,515 @@
+/**
+ * Digital Arrest Page - Government Official Styling
+ * Realistic Indian government branding for demonstration
+ */
+
+.container {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: linear-gradient(180deg, #0a1628 0%, #1a2d4a 50%, #0d1829 100%);
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* Lock overlay effect */
+.lockOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 0, 0, 0.02) 2px,
+            rgba(255, 0, 0, 0.02) 4px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Scanlines */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.1) 2px,
+            rgba(0, 0, 0, 0.1) 4px);
+}
+
+/* Warning flash */
+.warningFlash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(90deg, #8b0000, #ff0000, #8b0000);
+    color: white;
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 0.1em;
+    z-index: 100;
+    animation: flashPulse 0.3s ease infinite;
+}
+
+@keyframes flashPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Main content */
+.main {
+    position: relative;
+    z-index: 5;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Government Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: linear-gradient(180deg, #1a3a5c 0%, #0d2240 100%);
+    border: 2px solid #c9a227;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.emblemContainer {
+    flex-shrink: 0;
+}
+
+.emblem {
+    font-size: 3rem;
+    filter: drop-shadow(0 0 10px rgba(201, 162, 39, 0.5));
+}
+
+.headerText {
+    text-align: center;
+    flex: 1;
+}
+
+.govTitle {
+    font-family: 'Georgia', serif;
+    font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+    font-weight: bold;
+    color: #ffd700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    margin: 0 0 0.25rem 0;
+    letter-spacing: 0.05em;
+}
+
+.deptTitle {
+    font-family: 'Georgia', serif;
+    font-size: clamp(0.8rem, 2vw, 1.1rem);
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0 0 0.25rem 0;
+}
+
+.deptSubtitle {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    letter-spacing: 0.05em;
+}
+
+/* Alert Banner */
+.alertBanner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #8b0000 0%, #cc0000 50%, #8b0000 100%);
+    border: 2px solid #ff4444;
+    border-radius: 8px;
+    animation: alertPulse 2s ease infinite;
+}
+
+@keyframes alertPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(255, 0, 0, 0.7);
+    }
+}
+
+.alertIcon {
+    font-size: 2.5rem;
+    animation: lockShake 0.5s ease infinite;
+}
+
+@keyframes lockShake {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-5deg);
+    }
+
+    75% {
+        transform: rotate(5deg);
+    }
+}
+
+.alertContent {
+    flex: 1;
+}
+
+.alertTitle {
+    font-family: 'Arial Black', sans-serif;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    font-weight: 900;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 0.25rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.alertSubtitle {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+}
+
+/* Case Section */
+.caseSection {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #1a3a5c;
+    border-radius: 8px;
+    padding: 1.5rem;
+    color: #1a1a1a;
+}
+
+.caseHeader {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #1a3a5c;
+    margin-bottom: 1rem;
+}
+
+.caseInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.caseLabel {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.caseValue {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #8b0000;
+}
+
+.chargesSection {
+    margin-bottom: 1rem;
+}
+
+.chargesTitle {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #8b0000;
+    text-transform: uppercase;
+    margin: 0 0 0.75rem 0;
+    letter-spacing: 0.05em;
+}
+
+.chargesList {
+    margin: 0;
+    padding-left: 1.5rem;
+    font-family: 'Georgia', serif;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+.chargesList li {
+    margin-bottom: 0.5rem;
+}
+
+.warningSection {
+    padding: 1rem;
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 4px;
+}
+
+.warningText {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: #856404;
+    margin: 0 0 0.75rem 0;
+}
+
+.warningText:last-child {
+    margin-bottom: 0;
+}
+
+/* Fine Section */
+.fineSection {
+    background: linear-gradient(180deg, #1a3a5c 0%, #0d2240 100%);
+    border: 3px solid #ff4444;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.fineHeader {
+    margin-bottom: 1rem;
+}
+
+.fineLabel {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.fineAmount {
+    font-family: 'Georgia', serif;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: bold;
+    color: #ff4444;
+    text-shadow: 0 0 20px rgba(255, 68, 68, 0.5);
+    margin-bottom: 0.5rem;
+    animation: amountPulse 1.5s ease infinite;
+}
+
+@keyframes amountPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+.fineNote {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+}
+
+.timerSection {
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.timerLabel {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+}
+
+.timerValue {
+    font-family: 'Courier New', monospace;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ff4444;
+    text-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+    margin-bottom: 0.5rem;
+}
+
+.timerValue.timerCritical {
+    animation: criticalBlink 0.5s ease infinite;
+}
+
+@keyframes criticalBlink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.timerWarning {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.75rem;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Pay Button */
+.payButton {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.25rem 2rem;
+    background: linear-gradient(180deg, #00aa00 0%, #008800 50%, #006600 100%);
+    border: 3px solid #00ff00;
+    border-radius: 8px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 255, 0, 0.3);
+}
+
+.payButton:hover {
+    background: linear-gradient(180deg, #00cc00 0%, #00aa00 50%, #008800 100%);
+    box-shadow: 0 6px 30px rgba(0, 255, 0, 0.5);
+    transform: translateY(-2px);
+}
+
+.payIcon {
+    font-size: 1.5rem;
+}
+
+.payText {
+    font-family: 'Arial Black', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.payGlow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: payGlowMove 2s ease infinite;
+}
+
+@keyframes payGlowMove {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footerText {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0 0 0.5rem 0;
+}
+
+.footerContact {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .main {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .emblem {
+        font-size: 2.5rem;
+    }
+
+    .alertBanner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .caseHeader {
+        flex-direction: column;
+    }
+
+    .caseSection {
+        padding: 1rem;
+    }
+
+    .fineSection {
+        padding: 1.5rem 1rem;
+    }
+
+    .payButton {
+        padding: 1rem 1.5rem;
+    }
+
+    .payText {
+        font-size: 1rem;
+    }
+}
