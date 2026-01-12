@@ -28,12 +28,9 @@ const HACK_SEQUENCE = [
     { message: "Initializing connection intercept...", type: "info" as const, delay: 0 },
     { message: "Target device detected: MOBILE_DEVICE", type: "warning" as const, delay: 800 },
     { message: "Bypassing SSL handshake... SUCCESS", type: "success" as const, delay: 1600 },
-    { message: "Injecting packet sniffer...", type: "info" as const, delay: 2400 },
-    { message: "Accessing browser cookies... SUCCESS", type: "success" as const, delay: 3200 },
-    { message: "Cloning session tokens...", type: "info" as const, delay: 4000 },
-    { message: "Extracting saved passwords... PENDING", type: "pending" as const, delay: 4800 },
-    { message: "WARNING: Gallery access detected", type: "warning" as const, delay: 5600 },
-    { message: "CRITICAL: Full device access obtained", type: "error" as const, delay: 6400 },
+    { message: "Accessing browser cookies... SUCCESS", type: "success" as const, delay: 2400 },
+    { message: "Extracting saved passwords... PENDING", type: "pending" as const, delay: 3200 },
+    { message: "CRITICAL: Full device access obtained", type: "error" as const, delay: 4000 },
 ];
 
 export default function HackPage() {
@@ -73,8 +70,8 @@ export default function HackPage() {
     // Handle glitch completion
     const handleGlitchComplete = useCallback(() => {
         setPhase("redirect");
-        // Navigate to reveal page
-        router.push("/reveal");
+        // Navigate to digital arrest page
+        router.push("/digital-arrest");
     }, [router]);
 
     return (
@@ -140,7 +137,7 @@ export default function HackPage() {
                             transition={{ delay: 0.5, duration: 0.5 }}
                         >
                             <HackerAgentAnimation
-                                duration={6}
+                                duration={5}
                                 isActive={phase === "hacking"}
                                 onComplete={() => setLockComplete(true)}
                             />
