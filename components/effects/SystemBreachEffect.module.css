@@ -1,0 +1,433 @@
+/**
+ * SystemBreachEffect - Cinematic Hacking Transition
+ * Red theme, fast code scroll, screen shake, dramatic reveal
+ */
+
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    overflow: hidden;
+    background: #0a0000;
+}
+
+/* Screen shake animation */
+.container.shaking {
+    animation: screenShake 0.1s ease infinite;
+}
+
+@keyframes screenShake {
+
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(-5px, 3px) rotate(-0.5deg);
+    }
+
+    50% {
+        transform: translate(5px, -3px) rotate(0.5deg);
+    }
+
+    75% {
+        transform: translate(-3px, -5px) rotate(-0.3deg);
+    }
+}
+
+/* Red overlay with blinking */
+.redOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center,
+            rgba(139, 0, 0, 0.3) 0%,
+            rgba(50, 0, 0, 0.8) 50%,
+            rgba(10, 0, 0, 0.95) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.redOverlay.active {
+    opacity: 1;
+    animation: redPulse 0.2s ease infinite;
+}
+
+@keyframes redPulse {
+
+    0%,
+    100% {
+        opacity: 0.9;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Scanlines */
+.scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.3) 2px,
+            rgba(0, 0, 0, 0.3) 4px);
+    pointer-events: none;
+    z-index: 10;
+    animation: scanlineScroll 0.5s linear infinite;
+}
+
+@keyframes scanlineScroll {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 0 4px;
+    }
+}
+
+/* Horizontal code containers */
+.codeContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.codeLeft,
+.codeRight {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.codeRight {
+    text-align: right;
+}
+
+.codeLine {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.65rem;
+    color: rgba(255, 50, 50, 0.7);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+    animation: codeFadeIn 0.1s ease;
+}
+
+@keyframes codeFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Vertical code streams (Matrix-like but red) */
+.codeStreams {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.codeStream {
+    position: absolute;
+    top: -100%;
+    display: flex;
+    flex-direction: column;
+    animation: streamFall 0.8s linear infinite;
+}
+
+@keyframes streamFall {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(200vh);
+    }
+}
+
+.streamChar {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: #ff3333;
+    text-shadow: 0 0 10px #ff0000;
+    opacity: 0.6;
+    line-height: 1.2;
+}
+
+/* Breach message container */
+.breachContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Warning icon */
+.warningIcon {
+    font-size: 4rem;
+    color: #ff0000;
+    filter: drop-shadow(0 0 30px #ff0000);
+    margin-bottom: 0.5rem;
+}
+
+/* Main breach title */
+.breachTitle {
+    font-family: 'Orbitron', 'Arial Black', sans-serif;
+    font-size: clamp(3rem, 12vw, 7rem);
+    font-weight: 900;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    margin: 0;
+    text-shadow:
+        0 0 20px #ff0000,
+        0 0 40px #ff0000,
+        0 0 80px #ff0000;
+}
+
+/* Glitch text effect */
+.glitchText {
+    position: relative;
+    display: inline-block;
+}
+
+.glitchText::before,
+.glitchText::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitchText::before {
+    color: #ff0000;
+    animation: glitchBefore 0.15s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+}
+
+.glitchText::after {
+    color: #00ffff;
+    animation: glitchAfter 0.15s infinite;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+}
+
+@keyframes glitchBefore {
+
+    0%,
+    100% {
+        transform: translate(0);
+    }
+
+    20% {
+        transform: translate(-3px, 2px);
+    }
+
+    40% {
+        transform: translate(3px, -2px);
+    }
+
+    60% {
+        transform: translate(-2px, -1px);
+    }
+
+    80% {
+        transform: translate(2px, 1px);
+    }
+}
+
+@keyframes glitchAfter {
+
+    0%,
+    100% {
+        transform: translate(0);
+    }
+
+    20% {
+        transform: translate(3px, -2px);
+    }
+
+    40% {
+        transform: translate(-3px, 2px);
+    }
+
+    60% {
+        transform: translate(2px, 1px);
+    }
+
+    80% {
+        transform: translate(-2px, -1px);
+    }
+}
+
+/* Error badges row */
+.errorBadges {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.errorBadge {
+    padding: 0.5rem 1.5rem;
+    background: rgba(255, 0, 0, 0.2);
+    border: 2px solid #ff0000;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ff0000;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    box-shadow:
+        0 0 20px rgba(255, 0, 0, 0.5),
+        inset 0 0 20px rgba(255, 0, 0, 0.1);
+    animation: badgePulse 0.5s ease infinite;
+}
+
+@keyframes badgePulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.5), inset 0 0 20px rgba(255, 0, 0, 0.1);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(255, 0, 0, 0.8), inset 0 0 30px rgba(255, 0, 0, 0.2);
+    }
+}
+
+/* Sub badges */
+.subBadges {
+    margin-top: 0.5rem;
+}
+
+.subBadge {
+    padding: 0.4rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #ffffff;
+    letter-spacing: 0.15em;
+}
+
+/* Corner error badges */
+.cornerBadge {
+    position: absolute;
+    padding: 0.4rem 1rem;
+    background: #ff0000;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    z-index: 15;
+    animation: cornerPulse 0.3s ease infinite;
+}
+
+@keyframes cornerPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.topLeft {
+    top: 10%;
+    left: 5%;
+}
+
+.topRight {
+    top: 15%;
+    right: 8%;
+}
+
+.bottomLeft {
+    bottom: 20%;
+    left: 10%;
+}
+
+.bottomRight {
+    bottom: 10%;
+    right: 5%;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+
+    .codeLeft,
+    .codeRight {
+        width: 20%;
+        padding: 0.5rem;
+    }
+
+    .codeLine {
+        font-size: 0.5rem;
+    }
+
+    .warningIcon {
+        font-size: 2.5rem;
+    }
+
+    .errorBadges {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .errorBadge {
+        font-size: 0.75rem;
+        padding: 0.4rem 1rem;
+    }
+
+    .cornerBadge {
+        font-size: 0.6rem;
+        padding: 0.3rem 0.75rem;
+    }
+}

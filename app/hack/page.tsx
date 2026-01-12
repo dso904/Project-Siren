@@ -7,7 +7,7 @@ import {
     MatrixRain,
     HackerAgentAnimation,
     TerminalLog,
-    GlitchOverlay,
+    SystemBreachEffect,
 } from "@/components/effects";
 import styles from "./page.module.css";
 
@@ -38,6 +38,14 @@ export default function HackPage() {
     const [phase, setPhase] = useState<"loading" | "hacking" | "glitch" | "redirect">("loading");
     const [terminalComplete, setTerminalComplete] = useState(false);
     const [lockComplete, setLockComplete] = useState(false);
+
+    const handleTerminalComplete = useCallback(() => {
+        setTerminalComplete(true);
+    }, []);
+
+    const handleLockComplete = useCallback(() => {
+        setLockComplete(true);
+    }, []);
 
     // Track this visit
     useEffect(() => {
@@ -104,6 +112,17 @@ export default function HackPage() {
                 <div className={styles.adminGlow} />
             </motion.a>
 
+            {/* V2 Version Toggle - Top Right */}
+            <motion.a
+                href="/hack-v2"
+                className={styles.versionToggle}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2 }}
+            >
+                V2
+            </motion.a>
+
             {/* Main content */}
             <AnimatePresence>
                 {phase !== "redirect" && (
@@ -137,9 +156,9 @@ export default function HackPage() {
                             transition={{ delay: 0.5, duration: 0.5 }}
                         >
                             <HackerAgentAnimation
-                                duration={5}
+                                duration={7}
                                 isActive={phase === "hacking"}
-                                onComplete={() => setLockComplete(true)}
+                                onComplete={handleLockComplete}
                             />
                         </motion.section>
 
@@ -153,7 +172,7 @@ export default function HackPage() {
                             <TerminalLog
                                 entries={HACK_SEQUENCE}
                                 typingSpeed={15}
-                                onComplete={() => setTerminalComplete(true)}
+                                onComplete={handleTerminalComplete}
                             />
                         </motion.section>
 
@@ -167,7 +186,8 @@ export default function HackPage() {
                             <div className={styles.statusDot} />
                             <span className={styles.statusText}>
                                 {phase === "loading" && "Connecting..."}
-                                {phase === "hacking" && "Attack in progress..."}
+                                {phase === "hacking" && !lockComplete && "Attack in progress..."}
+                                {phase === "hacking" && lockComplete && "ACCESS GRANTED"}
                                 {phase === "glitch" && "BREACH COMPLETE"}
                             </span>
                         </motion.footer>
@@ -175,13 +195,11 @@ export default function HackPage() {
                 )}
             </AnimatePresence>
 
-            {/* Glitch transition overlay */}
-            <GlitchOverlay
+            {/* Cinematic breach transition */}
+            <SystemBreachEffect
                 isActive={phase === "glitch"}
-                intensity={0.9}
-                duration={2}
+                duration={3000}
                 onComplete={handleGlitchComplete}
-                shake={true}
             />
         </div>
     );

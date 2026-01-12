@@ -1,0 +1,91 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0.6rem;
+    background: rgba(20, 10, 10, 0.8);
+    border-bottom: 1px solid rgba(255, 26, 26, 0.3);
+}
+
+.title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: rgba(255, 51, 51, 0.8);
+    letter-spacing: 0.1em;
+}
+
+.indicators {
+    display: flex;
+    gap: 3px;
+}
+
+.dot {
+    width: 4px;
+    height: 4px;
+    background: #ff3333;
+    border-radius: 1px;
+}
+
+.stats {
+    flex: 1;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.statRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.label {
+    font-size: 0.65rem;
+    color: rgba(255, 51, 51, 0.6);
+    min-width: 16px;
+}
+
+.barContainer {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 26, 26, 0.1);
+    border: 1px solid rgba(255, 26, 26, 0.2);
+    border-radius: 1px;
+    overflow: hidden;
+}
+
+.barFill {
+    height: 100%;
+    background: linear-gradient(90deg, #cc0000, #ff3333);
+    box-shadow: 0 0 5px rgba(255, 51, 51, 0.5);
+}
+
+.value {
+    font-size: 0.6rem;
+    color: #ff3333;
+    min-width: 60px;
+    text-align: right;
+}
+
+.secondary {
+    padding: 0.4rem 0.6rem;
+    border-top: 1px solid rgba(255, 26, 26, 0.2);
+}
+
+.secondaryRow {
+    text-align: right;
+}
+
+.secondaryValue {
+    font-size: 0.7rem;
+    color: rgba(255, 51, 51, 0.6);
+}

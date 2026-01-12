@@ -1,0 +1,346 @@
+/**
+ * HACK V2 - Cinematic Tactical HUD Styles
+ * 
+ * Hollywood-grade visual design with deep red color scheme,
+ * volumetric lighting effects, and tactical grid aesthetics.
+ */
+
+/* ===================================
+   CONTAINER & BACKGROUNDS
+   =================================== */
+.container {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: #000000;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.backgroundLayers {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Scanlines Effect */
+.scanlines {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.15) 2px,
+            rgba(0, 0, 0, 0.15) 4px);
+    animation: scanlineScroll 8s linear infinite;
+}
+
+@keyframes scanlineScroll {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 0 100vh;
+    }
+}
+
+/* Vignette Effect for Depth */
+.vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center,
+            transparent 30%,
+            rgba(0, 0, 0, 0.4) 70%,
+            rgba(0, 0, 0, 0.8) 100%);
+}
+
+/* ===================================
+   ADMIN BUTTON
+   =================================== */
+.adminButton {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: rgba(255, 26, 26, 0.1);
+    border: 1px solid rgba(255, 26, 26, 0.4);
+    border-radius: 4px;
+    text-decoration: none;
+    z-index: 200;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.adminButton:hover {
+    border-color: #ff3333;
+    box-shadow: 0 0 20px rgba(255, 26, 26, 0.4);
+    background: rgba(255, 26, 26, 0.2);
+}
+
+.adminIcon {
+    font-size: 1rem;
+    color: #ff3333;
+    filter: drop-shadow(0 0 5px rgba(255, 26, 26, 0.5));
+}
+
+.adminText {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #ff3333;
+    letter-spacing: 0.15em;
+}
+
+/* Version Toggle */
+.versionToggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    color: rgba(255, 51, 51, 0.5);
+    text-decoration: none;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid rgba(255, 51, 51, 0.3);
+    border-radius: 4px;
+    z-index: 200;
+    transition: all 0.3s ease;
+}
+
+.versionToggle:hover {
+    color: #ff3333;
+    border-color: #ff3333;
+}
+
+/* ===================================
+   HUD CONTAINER & GRID LAYOUT
+   =================================== */
+.hudContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    position: relative;
+    z-index: 10;
+    gap: 1rem;
+}
+
+.mainGrid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 1rem;
+    min-height: 0;
+}
+
+/* Column Layouts */
+.leftColumn,
+.rightColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.centerColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* ===================================
+   PANEL STYLING
+   =================================== */
+.panel {
+    background: rgba(10, 5, 5, 0.85);
+    border: 1px solid rgba(255, 26, 26, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    flex: 1;
+    min-height: 0;
+}
+
+.panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 26, 26, 0.6), transparent);
+}
+
+.panel::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 26, 26, 0.3), transparent);
+}
+
+/* ===================================
+   DIALS CONTAINER (Center Focus)
+   =================================== */
+.dialsContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.dataStreamContainer {
+    width: 100%;
+    max-width: 600px;
+}
+
+/* ===================================
+   PHASE STATUS BAR
+   =================================== */
+.phaseBar {
+    background: rgba(10, 5, 5, 0.9);
+    border: 1px solid rgba(255, 26, 26, 0.4);
+    border-radius: 4px;
+    padding: 0.75rem 1.5rem;
+}
+
+.phaseIndicator {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.phaseLabel {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #ff3333;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 10px rgba(255, 26, 26, 0.5);
+    min-width: 280px;
+    animation: phasePulse 1s ease infinite;
+}
+
+@keyframes phasePulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.progressBar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 26, 26, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, #cc0000, #ff3333, #ff6666);
+    box-shadow: 0 0 10px rgba(255, 26, 26, 0.8);
+    border-radius: 2px;
+    position: relative;
+}
+
+.progressFill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3));
+}
+
+.progressText {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ff3333;
+    min-width: 50px;
+    text-align: right;
+}
+
+/* ===================================
+   BREACH FLASH EFFECT
+   =================================== */
+.breachFlash {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255, 0, 0, 0.3) 0%, rgba(255, 0, 0, 0.1) 50%, transparent 70%);
+    z-index: 150;
+    pointer-events: none;
+}
+
+/* ===================================
+   RESPONSIVE ADJUSTMENTS
+   =================================== */
+@media (max-width: 1200px) {
+    .mainGrid {
+        grid-template-columns: 240px 1fr 240px;
+    }
+}
+
+@media (max-width: 900px) {
+    .mainGrid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+
+    .leftColumn,
+    .rightColumn {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .panel {
+        min-width: 200px;
+        flex: none;
+    }
+
+    .dialsContainer {
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hudContainer {
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .mainGrid {
+        gap: 0.5rem;
+    }
+
+    .phaseLabel {
+        font-size: 0.65rem;
+        min-width: auto;
+    }
+
+    .phaseIndicator {
+        gap: 0.75rem;
+    }
+}

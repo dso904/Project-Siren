@@ -1,0 +1,227 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: rgba(10, 5, 5, 0.9);
+    border: 1px solid rgba(255, 26, 26, 0.3);
+    border-radius: 4px;
+}
+
+/* Left Section - Logo */
+.leftSection {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logoInner {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 900;
+    color: #ff3333;
+    text-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+    z-index: 1;
+}
+
+.logoRing {
+    position: absolute;
+    inset: 0;
+    border: 2px solid rgba(255, 51, 51, 0.5);
+    border-radius: 50%;
+    animation: ringPulse 2s ease infinite;
+}
+
+.logoRing::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border: 1px solid rgba(255, 51, 51, 0.3);
+    border-radius: 50%;
+}
+
+@keyframes ringPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.6;
+    }
+}
+
+.systemInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.systemName {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ff3333;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 10px rgba(255, 51, 51, 0.3);
+}
+
+.systemVersion {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(255, 51, 51, 0.5);
+}
+
+/* Center Section - Status */
+.centerSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.statusIndicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+    background: #ff3333;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
+}
+
+.statusDot.breach {
+    background: #ff6666;
+    box-shadow: 0 0 15px rgba(255, 100, 100, 1);
+}
+
+.statusText {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #ff3333;
+    letter-spacing: 0.1em;
+    animation: statusPulse 1s ease infinite;
+}
+
+@keyframes statusPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.connectionInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+}
+
+.connLabel {
+    color: rgba(255, 51, 51, 0.5);
+}
+
+.connValue {
+    color: rgba(255, 51, 51, 0.8);
+}
+
+/* Right Section - Time */
+.rightSection {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.datetime {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ff3333;
+    letter-spacing: 0.05em;
+}
+
+.date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(255, 51, 51, 0.5);
+}
+
+.systemStats {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.statItem {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    color: rgba(255, 51, 51, 0.6);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .centerSection {
+        display: none;
+    }
+
+    .systemVersion {
+        display: none;
+    }
+
+    .systemStats {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 0.5rem;
+    }
+
+    .logo {
+        width: 30px;
+        height: 30px;
+    }
+
+    .logoInner {
+        font-size: 0.7rem;
+    }
+
+    .systemName {
+        font-size: 0.7rem;
+    }
+
+    .time {
+        font-size: 0.8rem;
+    }
+}
