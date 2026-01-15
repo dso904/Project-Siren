@@ -1,29 +1,9 @@
-import { Victim } from "@/lib/sessions";
+import { addClient, removeClient } from "@/lib/sessions";
 
 /**
  * SSE (Server-Sent Events) endpoint for real-time updates
  * Admin dashboards connect here to receive live victim notifications
  */
-
-// Store connected clients
-const clients: Set<ReadableStreamDefaultController> = new Set();
-
-/**
- * Notify all connected clients of a new victim
- */
-export function notifyClients(victim: Victim): void {
-    const data = JSON.stringify(victim);
-    const message = `data: ${data}\n\n`;
-
-    clients.forEach((controller) => {
-        try {
-            controller.enqueue(new TextEncoder().encode(message));
-        } catch {
-            // Client disconnected, will be cleaned up
-            clients.delete(controller);
-        }
-    });
-}
 
 /**
  * GET /api/events
@@ -32,8 +12,8 @@ export function notifyClients(victim: Victim): void {
 export async function GET(): Promise<Response> {
     const stream = new ReadableStream({
         start(controller) {
-            // Add this client to the set
-            clients.add(controller);
+            // Add this client to the shared set
+            addClient(controller);
 
             // Send initial connection message
             const connectMessage = `data: ${JSON.stringify({ type: "connected" })}\n\n`;
@@ -46,14 +26,14 @@ export async function GET(): Promise<Response> {
                     controller.enqueue(new TextEncoder().encode(ping));
                 } catch {
                     clearInterval(heartbeat);
-                    clients.delete(controller);
+                    removeClient(controller);
                 }
             }, 30000); // Every 30 seconds
 
             // Cleanup on close
             return () => {
                 clearInterval(heartbeat);
-                clients.delete(controller);
+                removeClient(controller);
             };
         },
         cancel() {

@@ -25,14 +25,26 @@ echo.
 start "SIREN - DNS Server" cmd /k "cd /d "%~dp0" && node dns-server.js"
 timeout /t 3 /nobreak > nul
 
-echo [2/3] Starting Next.js Web Server (Production Mode)...
+echo [2/4] Checking Build Status...
+if not exist ".next" (
+    echo       [!] No build found. Compiling project...
+    echo       (This happens only once, please wait...)
+    echo.
+    call npm run build
+    echo.
+    echo       [+] Build complete!
+) else (
+    echo       [+] Production build found. Skipping compilation.
+)
+echo.
+
+echo [3/4] Starting Next.js Web Server (Production Mode)...
 echo       (This window must stay open)
 echo.
-REM NOTE: Run 'npm run build' manually once before the exhibition starts!
 start "SIREN - Web Server" cmd /k "cd /d "%~dp0" && npm start"
 timeout /t 5 /nobreak > nul
 
-echo [3/3] Opening Admin Dashboard...
+echo [4/4] Opening Admin Dashboard...
 echo.
 timeout /t 3 /nobreak > nul
 start http://localhost:3000/admin

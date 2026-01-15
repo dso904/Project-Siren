@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addVictim } from "@/lib/sessions";
-import { notifyClients } from "../events/route";
+import { addVictim, notifyClients } from "@/lib/sessions";
 
 /**
  * POST /api/track
