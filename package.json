@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
+  "dev": "next dev -p 80",
+  "build": "next build",
+  "start": "next start -p 80",
+  "lint": "eslint"
+},
   "dependencies": {
     "dns2": "^2.1.0",
     "framer-motion": "^12.23.26",
