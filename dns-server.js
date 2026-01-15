@@ -19,6 +19,28 @@ const LAPTOP_IP = '192.168.0.50';  // Your laptop's static IP (outside DHCP rang
 const DNS_PORT = 53;
 // ============================================
 
+const os = require('os');
+
+// SAFETY CHECK: Verify current IP matches configuration
+const interfaces = os.networkInterfaces();
+let ipFound = false;
+
+Object.keys(interfaces).forEach((iface) => {
+  interfaces[iface].forEach((details) => {
+    if (details.address === LAPTOP_IP) {
+      ipFound = true;
+    }
+  });
+});
+
+if (!ipFound) {
+  console.error('\n\n!!! CRITICAL CONFIGURATION ERROR !!!');
+  console.error(`Your machine does NOT have the IP ${LAPTOP_IP}.`);
+  console.error('The captive portal will NOT work.');
+  console.error('Please set your Static IP in Windows Settings first.\n');
+  // We don't exit process so you can see the error, but we warn loudly.
+}
+
 const server = dns2.createServer({
   udp: true,
   handle: (request, send) => {

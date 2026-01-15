@@ -25,10 +25,11 @@ echo.
 start "SIREN - DNS Server" cmd /k "cd /d "%~dp0" && node dns-server.js"
 timeout /t 3 /nobreak > nul
 
-echo [2/3] Starting Next.js Web Server...
+echo [2/3] Starting Next.js Web Server (Production Mode)...
 echo       (This window must stay open)
 echo.
-start "SIREN - Web Server" cmd /k "cd /d "%~dp0" && npm run dev"
+REM NOTE: Run 'npm run build' manually once before the exhibition starts!
+start "SIREN - Web Server" cmd /k "cd /d "%~dp0" && npm start"
 timeout /t 5 /nobreak > nul
 
 echo [3/3] Opening Admin Dashboard...
