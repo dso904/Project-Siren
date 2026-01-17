@@ -334,26 +334,169 @@
     left: 100%;
 }
 
-/* Version Toggle */
-.versionToggle {
+/* ===================================
+   SUSPICIOUS VICTIM BADGE - TOP RIGHT
+   Creepy, curiosity-arousing display
+   =================================== */
+.victimBadge {
     position: fixed;
     top: 1rem;
     right: 1rem;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.7rem;
-    color: rgba(0, 240, 255, 0.5);
-    text-decoration: none;
-    padding: 0.4rem 0.8rem;
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    border-radius: 4px;
     z-index: 50;
-    transition: all 0.3s ease;
+    animation: badgeFlicker 4s ease infinite;
 }
 
-.versionToggle:hover {
-    color: #00f0ff;
-    border-color: #00f0ff;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+.victimBadgeInner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(135deg, rgba(255, 7, 58, 0.15) 0%, rgba(180, 0, 50, 0.2) 100%);
+    border: 1px solid rgba(255, 7, 58, 0.5);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.victimIcon {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 10px rgba(255, 7, 58, 0.8));
+    animation: eyePulse 2s ease infinite;
+}
+
+@keyframes eyePulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    70% {
+        transform: scale(0.95);
+    }
+}
+
+.victimInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.victimLabel {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.55rem;
+    font-weight: 600;
+    color: rgba(255, 7, 58, 0.8);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.victimName {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ff073a;
+    text-shadow: 0 0 10px rgba(255, 7, 58, 0.6);
+    animation: nameGlitch 5s ease infinite;
+}
+
+@keyframes nameGlitch {
+
+    0%,
+    95%,
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    96% {
+        transform: translateX(-2px);
+        opacity: 0.8;
+    }
+
+    97% {
+        transform: translateX(2px);
+        opacity: 0.9;
+    }
+
+    98% {
+        transform: translateX(-1px);
+        opacity: 1;
+    }
+}
+
+.victimEmail {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: rgba(255, 100, 100, 0.7);
+    letter-spacing: 0.02em;
+}
+
+.victimPulse {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 4px;
+    height: 60%;
+    background: #ff073a;
+    transform: translateY(-50%);
+    border-radius: 0 2px 2px 0;
+    animation: pulseLine 1.5s ease infinite;
+}
+
+@keyframes pulseLine {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 10px #ff073a;
+    }
+
+    50% {
+        opacity: 0.5;
+        box-shadow: 0 0 5px #ff073a;
+    }
+}
+
+.victimGlitch {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 7, 58, 0.1) 50%,
+            transparent 100%);
+    animation: glitchSweep 3s ease infinite;
+    pointer-events: none;
+}
+
+@keyframes glitchSweep {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(200%);
+    }
+}
+
+@keyframes badgeFlicker {
+
+    0%,
+    98%,
+    100% {
+        opacity: 1;
+    }
+
+    99% {
+        opacity: 0.7;
+    }
 }
 
 /* Mobile adjustments */
@@ -377,5 +520,24 @@
 
     .adminText {
         font-size: 0.6rem;
+    }
+
+    .victimBadge {
+        top: auto;
+        bottom: 1rem;
+        right: 1rem;
+        left: 1rem;
+    }
+
+    .victimBadgeInner {
+        padding: 0.6rem 0.8rem;
+    }
+
+    .victimName {
+        font-size: 0.75rem;
+    }
+
+    .victimLabel {
+        font-size: 0.5rem;
     }
 }

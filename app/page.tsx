@@ -1,11 +1,11 @@
 import { redirect } from "next/navigation";
 
 /**
- * Root page - Redirects to the hack simulation
+ * Root page - Redirects to the captive portal
  * This catches all captive portal requests
  * 
- * Flow: / → /hack → /digital-arrest → /digital-arrest/payment → /reveal
+ * Flow: / → /portal → /hack → /digital-arrest → /reveal
  */
 export default function Home() {
-  redirect("/hack"); // Hacking simulation → leads to Digital Arrest
+  redirect("/portal"); // Wi-Fi login form → OSINT demonstration
 }

