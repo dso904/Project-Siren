@@ -1,0 +1,350 @@
+/* LiveFeedPanel - Sci-fi styled live media feed display */
+
+.container {
+    background: linear-gradient(135deg, rgba(0, 20, 30, 0.95), rgba(0, 10, 20, 0.98));
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(0, 240, 255, 0.05);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+.headerIcon {
+    width: 24px;
+    height: 24px;
+    color: #ff3366;
+}
+
+.headerIcon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #00f0ff;
+    margin: 0;
+    flex: 1;
+}
+
+.liveIndicator {
+    font-size: 10px;
+    font-weight: 600;
+    color: #ff3366;
+    letter-spacing: 1px;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Content */
+.content {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+}
+
+/* Awaiting State */
+.awaiting {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 200px;
+    gap: 12px;
+    color: rgba(0, 240, 255, 0.5);
+}
+
+.awaitingIcon {
+    width: 48px;
+    height: 48px;
+    color: rgba(0, 240, 255, 0.3);
+}
+
+.awaitingIcon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.awaitingText {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(0, 240, 255, 0.6);
+}
+
+.awaitingHint {
+    font-size: 11px;
+    color: rgba(0, 240, 255, 0.3);
+}
+
+/* Feed Grid */
+.feedGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Section */
+.section {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(0, 240, 255, 0.05);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+}
+
+.sectionIcon {
+    font-size: 14px;
+}
+
+.sectionTitle {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #00f0ff;
+    flex: 1;
+}
+
+.permissionBadge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+}
+
+.permissionBadge.granted {
+    background: rgba(0, 255, 136, 0.2);
+    color: #00ff88;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+.permissionBadge.denied {
+    background: rgba(255, 51, 102, 0.2);
+    color: #ff3366;
+    border: 1px solid rgba(255, 51, 102, 0.3);
+}
+
+/* Captured Photos */
+.photosContainer {
+    padding: 12px;
+}
+
+.photosGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.photoWrapper {
+    position: relative;
+    aspect-ratio: 4/3;
+    background: #000;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+.capturedPhoto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photoLabel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 4px 8px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    font-size: 10px;
+    font-weight: 600;
+    color: #00f0ff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.scanline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.1) 2px,
+            rgba(0, 0, 0, 0.1) 4px);
+    pointer-events: none;
+    animation: scanMove 8s linear infinite;
+}
+
+@keyframes scanMove {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 0 100px;
+    }
+}
+
+/* No Feed State */
+.noFeed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    color: rgba(255, 51, 102, 0.5);
+    gap: 8px;
+}
+
+.noFeed svg {
+    width: 32px;
+    height: 32px;
+    opacity: 0.5;
+}
+
+.noFeed span {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Audio */
+.audioContainer {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.audioLevel {
+    flex: 1;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.audioBar {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff88, #00f0ff, #ff3366);
+    border-radius: 6px;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+.audioValue {
+    font-size: 14px;
+    font-weight: 600;
+    color: #00f0ff;
+    min-width: 40px;
+    text-align: right;
+    font-family: 'Courier New', monospace;
+}
+
+/* Location */
+.locationContainer {
+    padding: 12px;
+}
+
+.locationData {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.coordRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.coordLabel {
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(0, 240, 255, 0.5);
+    letter-spacing: 1px;
+    min-width: 30px;
+}
+
+.coordValue {
+    font-size: 13px;
+    font-weight: 500;
+    color: #00ff88;
+    font-family: 'Courier New', monospace;
+}
+
+.mapLink {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 11px;
+    color: #00f0ff;
+    text-decoration: none;
+    padding: 6px 12px;
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.mapLink:hover {
+    background: rgba(0, 240, 255, 0.2);
+    border-color: rgba(0, 240, 255, 0.5);
+}
+
+/* Timestamp */
+.timestamp {
+    text-align: center;
+    font-size: 10px;
+    color: rgba(0, 240, 255, 0.4);
+    padding-top: 8px;
+    border-top: 1px solid rgba(0, 240, 255, 0.1);
+}

