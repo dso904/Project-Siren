@@ -31,7 +31,7 @@ export default function LiveFeedPanel({ media, className = "" }: LiveFeedPanelPr
                     </svg>
                 </div>
                 <h2 className={styles.title}>LIVE FEED</h2>
-                {hasAnyPermission && (
+                {media?.isLive && (
                     <motion.div
                         className={styles.liveIndicator}
                         animate={{ opacity: [1, 0.3, 1] }}
@@ -60,36 +60,37 @@ export default function LiveFeedPanel({ media, className = "" }: LiveFeedPanelPr
                     </div>
                 ) : (
                     <div className={styles.feedGrid}>
-                        {/* Captured Photos */}
+                        {/* Live Video Feed */}
                         <div className={styles.section}>
                             <div className={styles.sectionHeader}>
-                                <span className={styles.sectionIcon}>📸</span>
-                                <span className={styles.sectionTitle}>CAPTURED PHOTOS</span>
+                                <span className={styles.sectionIcon}>📹</span>
+                                <span className={styles.sectionTitle}>LIVE WEBCAM</span>
                                 <span className={`${styles.permissionBadge} ${media.permissions.camera ? styles.granted : styles.denied}`}>
                                     {media.permissions.camera ? "GRANTED" : "DENIED"}
                                 </span>
                             </div>
-                            <div className={styles.photosContainer}>
-                                {media.permissions.camera && media.frames && media.frames.length > 0 ? (
-                                    <div className={styles.photosGrid}>
-                                        {media.frames.map((frame, index) => (
-                                            <div key={index} className={styles.photoWrapper}>
-                                                <img
-                                                    src={frame}
-                                                    alt={`Captured photo ${index + 1}`}
-                                                    className={styles.capturedPhoto}
-                                                />
-                                                <span className={styles.photoLabel}>Photo {index + 1}</span>
-                                                <div className={styles.scanline} />
+                            <div className={styles.videoContainer}>
+                                {media.permissions.camera && media.frame ? (
+                                    <div className={styles.liveVideoWrapper}>
+                                        <img
+                                            src={media.frame}
+                                            alt="Live webcam feed"
+                                            className={styles.liveVideo}
+                                        />
+                                        <div className={styles.scanline} />
+                                        {media.isLive && (
+                                            <div className={styles.liveBadge}>
+                                                <span className={styles.liveIndicatorDot} />
+                                                LIVE
                                             </div>
-                                        ))}
+                                        )}
                                     </div>
                                 ) : (
                                     <div className={styles.noFeed}>
                                         <svg viewBox="0 0 24 24" fill="currentColor">
                                             <path d="M18 10.48V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4.48l4 3.98v-11l-4 3.98zm-2-.79v8.62c0 .62-.5 1.12-1.12 1.12H3.12c-.62 0-1.12-.5-1.12-1.12V5.69c0-.62.5-1.12 1.12-1.12h11.76c.62 0 1.12.5 1.12 1.12v4z" />
                                         </svg>
-                                        <span>No photos captured</span>
+                                        <span>No camera access</span>
                                     </div>
                                 )}
                             </div>

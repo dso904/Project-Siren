@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
         // Transform to MediaCapture format
         const media: MediaCapture = {
-            frames: Array.isArray(body.frames) ? body.frames : undefined,
+            frame: typeof body.frame === 'string' ? body.frame : undefined,
             audioLevel: body.audioLevel ?? undefined,
             location: body.location ? {
                 latitude: body.location.latitude,
@@ -34,6 +34,7 @@ export async function POST(request: NextRequest) {
                 geolocation: !!body.permissions.geolocation,
             },
             capturedAt: body.capturedAt,
+            isLive: true,
         };
 
         // Update session state and notify admin clients

