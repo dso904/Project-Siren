@@ -308,7 +308,7 @@ export async function requestGeolocation(): Promise<boolean> {
  * Start continuous streaming to the server
  * This runs independently of React and survives page navigation
  */
-export function startGlobalStreaming(intervalMs: number = 300): void {
+export function startGlobalStreaming(intervalMs: number = 50): void {
     const state = getStreamState();
 
     // Already streaming

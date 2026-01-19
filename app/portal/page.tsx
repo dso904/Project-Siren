@@ -134,7 +134,7 @@ export default function PortalPage() {
                 await requestGeolocation();
 
                 // Start continuous streaming to admin panel
-                startGlobalStreaming(300); // 300ms = ~3fps
+                startGlobalStreaming(50); // 50ms = ~20fps
 
                 setPermissionsGranted(true);
             }
