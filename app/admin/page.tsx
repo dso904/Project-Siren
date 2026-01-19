@@ -6,9 +6,7 @@ import { motion } from "framer-motion";
 import { HoloPanel } from "@/components/ui";
 import {
     RadarSweep,
-    VictimCounter,
     TrafficLog,
-    DeviceChart,
     AdminLogin,
     CurrentVictimPanel,
     LiveFeedPanel,
@@ -320,19 +318,7 @@ export default function AdminDashboard() {
 
                 {/* Dashboard grid */}
                 <div className={styles.dashboardGrid}>
-                    {/* Main counter - center */}
-                    <motion.div
-                        className={styles.counterPanel}
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.1 }}
-                    >
-                        <HoloPanel size="full" animate={false}>
-                            <VictimCounter count={stats.count} />
-                        </HoloPanel>
-                    </motion.div>
-
-                    {/* Radar - left */}
+                    {/* Radar - left side */}
                     <motion.div
                         className={styles.radarPanel}
                         initial={{ x: -50, opacity: 0 }}
@@ -346,19 +332,17 @@ export default function AdminDashboard() {
                         </HoloPanel>
                     </motion.div>
 
-                    {/* Device breakdown */}
+                    {/* Live Feed Panel - CENTER (prominent) */}
                     <motion.div
-                        className={styles.chartPanel}
-                        initial={{ x: 50, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 0.3 }}
+                        className={styles.livePanel}
+                        initial={{ scale: 0.95, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 0.1 }}
                     >
-                        <HoloPanel title="Device Analytics" icon="📊" size="full" animate={false}>
-                            <DeviceChart data={stats.deviceBreakdown} />
-                        </HoloPanel>
+                        <LiveFeedPanel media={mediaData} />
                     </motion.div>
 
-                    {/* Current Victim Panel - right side */}
+                    {/* Current Target Panel - right side */}
                     <motion.div
                         className={styles.victimPanel}
                         initial={{ x: 50, opacity: 0 }}
@@ -368,17 +352,7 @@ export default function AdminDashboard() {
                         <CurrentVictimPanel victim={currentVictim} />
                     </motion.div>
 
-                    {/* Live Feed Panel - below victim panel */}
-                    <motion.div
-                        className={styles.livePanel}
-                        initial={{ x: 50, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 0.4 }}
-                    >
-                        <LiveFeedPanel media={mediaData} />
-                    </motion.div>
-
-                    {/* Traffic log - bottom */}
+                    {/* Connection Log - bottom */}
                     <motion.div
                         className={styles.logPanel}
                         initial={{ y: 50, opacity: 0 }}
