@@ -4,8 +4,7 @@
  */
 
 export { default as MatrixRain } from "./MatrixRain";
-export { default as LockCrack } from "./LockCrack";
 export { default as TerminalLog } from "./TerminalLog";
-export { default as GlitchOverlay } from "./GlitchOverlay";
 export { default as HackerAgentAnimation } from "./HackerAgentAnimation";
 export { default as SystemBreachEffect } from "./SystemBreachEffect";
+

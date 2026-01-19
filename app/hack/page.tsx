@@ -273,7 +273,7 @@ export default function HackPage() {
             {/* Cinematic breach transition */}
             <SystemBreachEffect
                 isActive={phase === "glitch"}
-                duration={3000}
+                duration={6000}
                 onComplete={handleGlitchComplete}
             />
         </div>

@@ -76,18 +76,18 @@ export default function SystemBreachEffect({
             });
         }, 30); // Very fast - 30ms per line
 
-        // Phase 2: Screen shake (1500-2200ms)
+        // Phase 2: Screen shake (2000-3000ms for 6s duration)
         const shakeTimer = setTimeout(() => {
             setPhase("shake");
-        }, duration * 0.5);
+        }, duration * 0.33);
 
-        // Phase 3: Reveal message (2200-2800ms)
+        // Phase 3: Reveal message (3000-6000ms for 6s duration = 3 second reveal)
         const revealTimer = setTimeout(() => {
             if (codeIntervalRef.current) {
                 clearInterval(codeIntervalRef.current);
             }
             setPhase("reveal");
-        }, duration * 0.7);
+        }, duration * 0.5);
 
         // Phase 4: Complete (3000ms)
         const completeTimer = setTimeout(() => {
