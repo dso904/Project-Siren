@@ -47,17 +47,28 @@ const server = dns2.createServer({
     const response = Packet.createResponseFromRequest(request);
     const [question] = request.questions;
 
-    if (question) {
-      // Redirect ALL domains to our laptop
+    const type = question.type;
+
+    // Handle A records (Standard IPv4) -> Redirect to our Laptop
+    if (type === Packet.TYPE.A) {
       response.answers.push({
         name: question.name,
         type: Packet.TYPE.A,
         class: Packet.CLASS.IN,
-        ttl: 60,  // Short TTL so phones don't cache
+        ttl: 60,
         address: LAPTOP_IP
       });
+    }
 
-      // Log the redirect (useful for debugging)
+    // Handle AAAA records (IPv6) -> Respond with empty to force IPv4
+    // This prevents modern phones from hanging while waiting for IPv6 timeout
+    else if (type === Packet.TYPE.AAAA) {
+      // leaving answers empty tells the client "No IPv6 address", forcing them to use the A record
+    }
+    // Handle other types if necessary or just let them resolve to empty
+
+    // Log the redirect (for A records only, to keep logs clean)
+    if (type === Packet.TYPE.A) {
       const timestamp = new Date().toLocaleTimeString();
       console.log(`[${timestamp}] DNS: ${question.name} → ${LAPTOP_IP}`);
     }
