@@ -2,6 +2,23 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
+    // ============================================
+    // ENVIRONMENT DETECTION - CRITICAL FOR VERCEL
+    // ============================================
+    // This middleware should ONLY run in local exhibition mode.
+    // On Vercel (production), we skip all redirect logic.
+
+    const isVercel = process.env.VERCEL === '1';
+    const isProduction = process.env.NODE_ENV === 'production' && isVercel;
+
+    // If we're on Vercel/Production, do nothing - let the app run normally
+    if (isVercel || isProduction) {
+        return NextResponse.next();
+    }
+
+    // ============================================
+    // EXHIBITION MODE ONLY (Local Network)
+    // ============================================
     // CONFIGURATION
     // The official IP of the station running the exhibition
     const TARGET_IP = '192.168.0.50';
