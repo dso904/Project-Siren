@@ -386,6 +386,110 @@
     border-right: 2px solid rgba(0, 168, 255, 0.3);
 }
 
+/* Admin Access Button */
+.adminBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(99, 102, 241, 0.15) 100%);
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    border-radius: 8px;
+    color: #a78bfa;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+
+.adminBtn:hover {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.35) 0%, rgba(99, 102, 241, 0.25) 100%);
+    border-color: rgba(139, 92, 246, 0.6);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+    transform: translateY(-2px);
+}
+
+.adminBtn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* iframe Container (Option 2 - currently unused) */
+.iframeOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.iframeContainer {
+    width: 100%;
+    max-width: 1400px;
+    height: 90vh;
+    background: #0a1628;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+}
+
+.iframeHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: rgba(139, 92, 246, 0.1);
+    border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.iframeTitle {
+    color: #a78bfa;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.iframeCloseBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 77, 106, 0.15);
+    border: 1px solid rgba(255, 77, 106, 0.3);
+    border-radius: 6px;
+    color: #ff4d6a;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.iframeCloseBtn:hover {
+    background: rgba(255, 77, 106, 0.25);
+    border-color: rgba(255, 77, 106, 0.5);
+}
+
+.iframeCloseBtn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.adminIframe {
+    width: 100%;
+    height: calc(100% - 56px);
+    border: none;
+}
+
 /* Responsive */
 @media (max-width: 480px) {
     .card {

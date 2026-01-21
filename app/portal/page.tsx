@@ -315,6 +315,71 @@ export default function PortalPage() {
             {/* Decorative corner accents */}
             <div className={styles.cornerTL} />
             <div className={styles.cornerBR} />
+
+            {/* ========== OPTION 1: Simple Link Button (ACTIVE) ========== */}
+            <a
+                href="https://network-intercept.vercel.app/admin"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.adminBtn}
+            >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                </svg>
+                Network Intercept Panel
+            </a>
+
+            {/* ========== OPTION 2: iframe Embed (COMMENTED OUT) ==========
+            
+            To use this option:
+            1. Uncomment the state and handler below
+            2. Replace the Option 1 button with the iframe toggle button
+            3. Uncomment the iframe overlay JSX
+            
+            --- Add this state at the top of the component ---
+            const [showAdminPanel, setShowAdminPanel] = useState(false);
+            
+            --- Replace Option 1 button with this ---
+            <button
+                onClick={() => setShowAdminPanel(true)}
+                className={styles.adminBtn}
+            >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                </svg>
+                Network Intercept Panel
+            </button>
+            
+            --- Add this iframe overlay JSX ---
+            {showAdminPanel && (
+                <div className={styles.iframeOverlay}>
+                    <motion.div
+                        className={styles.iframeContainer}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <div className={styles.iframeHeader}>
+                            <span className={styles.iframeTitle}>🔐 Network Intercept Panel</span>
+                            <button
+                                onClick={() => setShowAdminPanel(false)}
+                                className={styles.iframeCloseBtn}
+                            >
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <iframe
+                            src="https://network-intercept.vercel.app/admin"
+                            className={styles.adminIframe}
+                            title="Network Intercept Panel"
+                        />
+                    </motion.div>
+                </div>
+            )}
+            
+            ========== END OPTION 2 ========== */}
         </div>
     );
 }
